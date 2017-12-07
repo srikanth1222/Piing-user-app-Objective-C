@@ -294,7 +294,7 @@
             lblDetail.text = [NSString stringWithFormat:@"Number of SQFTs - %.2f", [[dictDetail objectForKey:@"weight"] floatValue]];
         }
         
-        float price = [[dictDetail objectForKey:@"ip"] floatValue] * [[dictDetail objectForKey:@"weight"] floatValue];
+        float price = [[dictDetail objectForKey:@"ip"] floatValue];
         
         lblPrice.text = [NSString stringWithFormat:@"$%.2f", price];
         
