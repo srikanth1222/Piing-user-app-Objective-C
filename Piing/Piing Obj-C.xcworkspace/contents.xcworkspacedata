@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/SrikanthV/Desktop/GituHub Piing Apps/Piing-user-app-Objective-C/Piing/Piing Obj-C.xcodeproj">
+      location = "group:Piing Obj-C.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

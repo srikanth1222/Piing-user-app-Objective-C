@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_PiingVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_PiingVersionString[];
+FOUNDATION_EXPORT double Pods_Piing_Obj_CVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_Piing_Obj_CVersionString[];
 

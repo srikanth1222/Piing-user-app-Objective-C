@@ -67,8 +67,6 @@
 #if __IPHONE_8_0
 - (void)awakeFromNib
 {
-    [super awakeFromNib];
-    
     if (self.contentViewStoryboardID) {
         self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.contentViewStoryboardID];
     }
@@ -88,7 +86,7 @@
     
     _animationDuration = 0.35f;
     _interactivePopGestureRecognizerEnabled = YES;
-    
+  
     _menuViewControllerTransformation = CGAffineTransformMakeScale(1.5f, 1.5f);
     
     _scaleContentView = YES;
@@ -104,9 +102,9 @@
     
     _bouncesHorizontally = YES;
     
-    _panGestureEnabled = NO;
-    _panFromEdge = NO;
-    _panMinimumOpenThreshold = 80.0;
+    _panGestureEnabled = YES;
+    _panFromEdge = YES;
+    _panMinimumOpenThreshold = 60.0;
     
     _contentViewShadowEnabled = NO;
     _contentViewShadowColor = [UIColor blackColor];
@@ -114,10 +112,7 @@
     _contentViewShadowOpacity = 0.4f;
     _contentViewShadowRadius = 8.0f;
     _contentViewInLandscapeOffsetCenterX = 30.f;
-    
-    //_contentViewInPortraitOffsetCenterX  = 0;
-    
-    _contentViewInPortraitOffsetCenterX  = [[UIScreen mainScreen] bounds].size.width-([[UIScreen mainScreen] bounds].size.width/1.2);
+    _contentViewInPortraitOffsetCenterX  = 30.f;
     _contentViewScaleValue = 0.7f;
 }
 
