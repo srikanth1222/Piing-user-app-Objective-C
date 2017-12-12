@@ -8,7 +8,7 @@
 
 #import "PreferencesViewController.h"
 #import "AppDelegate.h"
-#import "Piing-Swift.h"
+#import "Piing_Obj_C-Swift.h"
 #import "UIButton+CenterImageAndTitle.h"
 
 

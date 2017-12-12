@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
+   LastUpgradeVersion = "0920"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "12FC4A291BB67205007D8B38"
-               BuildableName = "Piing.app"
-               BlueprintName = "Piing"
-               ReferencedContainer = "container:Piing.xcodeproj">
+               BuildableName = "Piing Obj-C.app"
+               BlueprintName = "Piing Obj-C"
+               ReferencedContainer = "container:Piing Obj-C.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,34 +29,14 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "12FC4A451BB67205007D8B38"
-               BuildableName = "PiingTests.xctest"
-               BlueprintName = "PiingTests"
-               ReferencedContainer = "container:Piing.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "12FC4A501BB67205007D8B38"
-               BuildableName = "PiingUITests.xctest"
-               BlueprintName = "PiingUITests"
-               ReferencedContainer = "container:Piing.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "12FC4A291BB67205007D8B38"
-            BuildableName = "Piing.app"
-            BlueprintName = "Piing"
-            ReferencedContainer = "container:Piing.xcodeproj">
+            BuildableName = "Piing Obj-C.app"
+            BlueprintName = "Piing Obj-C"
+            ReferencedContainer = "container:Piing Obj-C.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -78,29 +58,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "12FC4A291BB67205007D8B38"
-            BuildableName = "Piing.app"
-            BlueprintName = "Piing"
-            ReferencedContainer = "container:Piing.xcodeproj">
+            BuildableName = "Piing Obj-C.app"
+            BlueprintName = "Piing Obj-C"
+            ReferencedContainer = "container:Piing Obj-C.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-FIRAnalyticsDebugEnabled"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = ""
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "NSZombieEnabled"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -115,9 +77,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "12FC4A291BB67205007D8B38"
-            BuildableName = "Piing.app"
-            BlueprintName = "Piing"
-            ReferencedContainer = "container:Piing.xcodeproj">
+            BuildableName = "Piing Obj-C.app"
+            BlueprintName = "Piing Obj-C"
+            ReferencedContainer = "container:Piing Obj-C.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

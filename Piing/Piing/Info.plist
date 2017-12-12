@@ -7,7 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Piing</string>
 	<key>CFBundleExecutable</key>
-	<string>Piing</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
