@@ -399,6 +399,7 @@
     
     view_Top = [[UIView alloc]initWithFrame:CGRectMake(viewX, 0, screen_width-(viewX*2), 0)];
     view_Top.backgroundColor = [BLUE_COLOR colorWithAlphaComponent:0.9];
+    view_Top.layer.cornerRadius = 14.0;
     [self.view addSubview:view_Top];
     
     

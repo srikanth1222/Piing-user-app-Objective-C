@@ -23,7 +23,7 @@
 
 -(void) showOnlyWaves;
 -(void) offWaves;
--(void) rotate2;
+-(void) rotate2:(int) seconds;
 -(void) stopRotate2;
 -(void) hideAllData;
 

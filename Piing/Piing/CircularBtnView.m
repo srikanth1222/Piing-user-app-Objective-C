@@ -244,7 +244,7 @@ BOOL animating;
 }
 
 
--(void) rotate2
+-(void) rotate2:(int) seconds
 {
     if (!animating) {
         animating = YES;
@@ -253,7 +253,7 @@ BOOL animating;
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 /* full rotation*/ * 1 * 1.0 ];
-    rotationAnimation.duration = 15.0;
+    rotationAnimation.duration = seconds;
     rotationAnimation.removedOnCompletion = NO;
     rotationAnimation.cumulative = YES;
     rotationAnimation.repeatCount = 0;

@@ -58,7 +58,7 @@
     NSDictionary *piinfDetailDic;
     NSDictionary *dictOrderDetails;
     NSString *bookNowETAStr;
-    UILabel *etaTimer, *clickLbl;
+    UILabel *etaTimer, *lblTopDesc;
     
     UIView *backGroundTemView;
     
@@ -348,24 +348,23 @@
         [view_DemoScreen removeFromSuperview];
         view_DemoScreen = nil;
         
-        [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"SHOW_BAG_SHOE"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
+//        [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"SHOW_BAG_SHOE"];
+//        [[NSUserDefaults standardUserDefaults]synchronize];
+//
+//        [self showPopupForBagAndShoe];
         
-        [self showPopupForBagAndShoe];
         
+        [timerView hideAllData];
+        [timerView showOnlyWaves];
         
-//        [timerView hideAllData];
-//        [timerView showOnlyWaves];
-//        
-//        addressBtn.userInteractionEnabled = NO;
-//        
-//        clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-//        clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-//        
-//        etaLabel.text = @"";
-//        
-//        [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:1.5];
-
+        addressBtn.userInteractionEnabled = NO;
+        
+        lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+        lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+        
+        etaLabel.text = @"";
+        
+        [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:1.5];
         
     }];
 }
@@ -482,15 +481,16 @@
     
     schduleLaterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     schduleLaterButton.frame = CGRectMake(slX, CGRectGetMaxY(piingoMapView.frame) - deleteHeight, screen_width - (slX*2), slHeight);
-    [schduleLaterButton setTitle:@"SCHEDULE LATER" forState:UIControlStateNormal];
     [schduleLaterButton setImage:[UIImage imageNamed:@"schedule_later_icon"] forState:UIControlStateNormal];
     [schduleLaterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [schduleLaterButton.titleLabel setFont:[UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM-1]];
+    [schduleLaterButton.titleLabel setFont:[UIFont fontWithName:APPFONT_BLACK size:appDel.FONT_SIZE_CUSTOM-1]];
     schduleLaterButton.backgroundColor = [UIColor clearColor];
+    
+    [schduleLaterButton setAttributedTitle:[appDel spacingForString:@"SCHEDULE LATER" WithSpace:0.8 withAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}] forState:UIControlStateNormal];
     
     schduleLaterButton.imageEdgeInsets = UIEdgeInsetsMake(0, -34*MULTIPLYHEIGHT, 0, 0);
     schduleLaterButton.titleEdgeInsets = UIEdgeInsetsMake(0, -10*MULTIPLYHEIGHT, 0, 0);
-    schduleLaterButton.layer.borderWidth = 1.0;
+    schduleLaterButton.layer.borderWidth = 1.5f;
     schduleLaterButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     schduleLaterButton.layer.cornerRadius = 15.0;
     
@@ -516,14 +516,14 @@
     
     float clickLblHeight = timerView.frame.origin.y-lblY;
     
-    clickLbl = [[UILabel alloc] initWithFrame:CGRectMake(lblX, lblY, screen_width-(lblX*2), clickLblHeight)];
-    clickLbl.backgroundColor = [UIColor clearColor];
-    clickLbl.numberOfLines = 3;
-    clickLbl.textAlignment = NSTextAlignmentCenter;
-    clickLbl.textColor = [UIColor whiteColor];
-    clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-    clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-    [backGroundTemView addSubview:clickLbl];
+    lblTopDesc = [[UILabel alloc] initWithFrame:CGRectMake(lblX, lblY, screen_width-(lblX*2), clickLblHeight)];
+    lblTopDesc.backgroundColor = [UIColor clearColor];
+    lblTopDesc.numberOfLines = 3;
+    lblTopDesc.textAlignment = NSTextAlignmentCenter;
+    lblTopDesc.textColor = [UIColor whiteColor];
+    lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+    lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+    [backGroundTemView addSubview:lblTopDesc];
     
     etaLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(timerView.frame) + 40.0, screen_width, 60)];
     etaLabel.backgroundColor = [UIColor clearColor];
@@ -687,17 +687,17 @@
         [timerView offWaves];
         [timerView setDetails:1];
         
-        clickLbl.text = @"";
+        lblTopDesc.text = @"";
         
         [self showDemoScreens];
     }
-    else if (![[NSUserDefaults standardUserDefaults] objectForKey:@"SHOW_BAG_SHOE"])
-    {
-        [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"SHOW_BAG_SHOE"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-        
-        [self showPopupForBagAndShoe];
-    }
+//    else if (![[NSUserDefaults standardUserDefaults] objectForKey:@"SHOW_BAG_SHOE"])
+//    {
+//        [[NSUserDefaults standardUserDefaults]setObject:@"YES" forKey:@"SHOW_BAG_SHOE"];
+//        [[NSUserDefaults standardUserDefaults]synchronize];
+//
+//        [self showPopupForBagAndShoe];
+//    }
     else
     {
         if (appDel.isBookNowPending)
@@ -713,8 +713,8 @@
                 
                 addressBtn.userInteractionEnabled = NO;
                 
-                clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-                clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+                lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+                lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
                 
                 etaLabel.text = @"";
                 
@@ -949,8 +949,8 @@
         
         addressBtn.userInteractionEnabled = NO;
         
-        clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-        clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+        lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+        lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
         
         etaLabel.text = @"";
         
@@ -967,9 +967,9 @@
     [timerView showOnlyWaves];
     timerView.userInteractionEnabled = NO;
     
-    clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-    clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-    clickLbl.hidden = NO;
+    lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+    lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+    lblTopDesc.hidden = NO;
     
     NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
@@ -1002,8 +1002,8 @@
                 timerView.hidden = YES;
                 [timerView setDetails:2];
                 
-                clickLbl.hidden = NO;
-                clickLbl.text = [responseObj objectForKey:@"error"];
+                lblTopDesc.hidden = NO;
+                lblTopDesc.text = [responseObj objectForKey:@"error"];
                 
                 //clickLbl.text = @"rejgweuigejebfvjksdvkusdgkfugsafcgsafgqwefgwjye";
                 
@@ -1042,8 +1042,8 @@
             timerView.hidden = YES;
             [timerView setDetails:2];
             
-            clickLbl.hidden = NO;
-            clickLbl.text = [responseObj objectForKey:@"error"];
+            lblTopDesc.hidden = NO;
+            lblTopDesc.text = [responseObj objectForKey:@"error"];
             
             etaLabel.hidden = YES;
             
@@ -1137,7 +1137,7 @@
                 [timerView offWaves];
                 [timerView setDetails:1];
                 
-                clickLbl.text = @"";
+                lblTopDesc.text = @"";
                 
                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SHOW_DEMO"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -1307,14 +1307,14 @@
         }
         else
         {
-            clickLbl.hidden = YES;
+            lblTopDesc.hidden = YES;
         }
         
         [addressBtn setTitle:[self setTitleForAddress] forState:UIControlStateNormal];
         
         
-        clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-        clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+        lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+        lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
         
         addressBtn.userInteractionEnabled = NO;
         
@@ -1395,8 +1395,8 @@
     [timerView showOnlyWaves];
     timerView.userInteractionEnabled = NO;
     
-    clickLbl.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-    clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+    lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+    lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
     
     NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"WF", @"serviceTypes", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
     
@@ -1430,7 +1430,7 @@
             intervalTime = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
             countDownTime = 15;
             
-            [timerView rotate2];
+            [timerView rotate2:countDownTime];
             
             bookNowETAStr = [NSString stringWithFormat:@"%d", [[[responseObj objectForKey:@"order"] objectForKey:@"eta"] intValue]];
             strPiingoId = [NSString stringWithFormat:@"%d", [[[responseObj objectForKey:@"order"] objectForKey:@"pid"] intValue]];
@@ -1461,10 +1461,10 @@
             etaLabel.attributedText = string;
             
             etaLabel.hidden = NO;
-            clickLbl.hidden = NO;
-            clickLbl.text = [@"TAP TO BOOK NOW" uppercaseString];
+            lblTopDesc.hidden = NO;
+            lblTopDesc.text = [@"TAP TO BOOK NOW" uppercaseString];
             
-            clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-3];
+            lblTopDesc.font = [UIFont fontWithName:APPFONT_Heavy size:appDel.HEADER_LABEL_FONT_SIZE-3];
         }
         else {
             addressBtn.userInteractionEnabled = YES;
@@ -1487,7 +1487,7 @@
             [timerView offWaves];
             [timerView setDetails:2];
             
-            clickLbl.text = [responseObj objectForKey:@"error"];
+            lblTopDesc.text = [responseObj objectForKey:@"error"];
             etaLabel.hidden = YES;
         }
     }];
@@ -1653,8 +1653,8 @@
         
         etaLabel.hidden = YES;
         //        clickLbl.hidden = YES;
-        clickLbl.text = @"TAP TO REFRESH";
-        clickLbl.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-3];
+        lblTopDesc.text = @"TAP TO REFRESH";
+        lblTopDesc.font = [UIFont fontWithName:APPFONT_Heavy size:appDel.HEADER_LABEL_FONT_SIZE-3];
 
     }
 }

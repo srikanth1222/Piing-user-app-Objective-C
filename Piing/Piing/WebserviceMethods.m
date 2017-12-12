@@ -44,33 +44,19 @@
     {
         NSLog(@"REACHABLE!");
         
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        
-        NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        for (NSHTTPCookie *cookie in [storage cookies]) {
-            [storage deleteCookie:cookie];
-        }
+//        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+//
+//        NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//        for (NSHTTPCookie *cookie in [storage cookies]) {
+//            [storage deleteCookie:cookie];
+//        }
         
         NSMutableURLRequest *req1 = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
         
-        NSMutableString *strPost = [[NSMutableString alloc]initWithString:@""];
-        
-        for (int i = 0; i < [parameters count]; i++)
-        {
-            [strPost appendString:[NSString stringWithFormat:@"%@=%@&", [[parameters allKeys] objectAtIndex:i], [[parameters allValues] objectAtIndex:i]]];
-        }
-        
-        if (strPost.length > 1)
-        {
-            strPost = [[strPost substringWithRange:NSMakeRange(0, strPost.length-1)] mutableCopy];
-        }
-        
-        NSData *postData = [strPost dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        NSString *postLength = [NSString stringWithFormat:@"%lu" , (unsigned long)[postData length]];
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:nil];
         
         [req1 setHTTPMethod:@"POST"];
-        [req1 setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [req1 setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [req1 setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [req1 setHTTPBody:postData];
         
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -83,11 +69,11 @@
             
             AppDelegate *appDel = [[PiingHandler sharedHandler] appDel];
             
-            id responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
                 if (!error) {
+                    
+                    id responseObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                     
                     appDel.loginMethodCalled = NO;
                     
@@ -96,15 +82,13 @@
                     apiResponse(response, error, responseObject);
                     
                 } else {
-                    NSLog(@"Error: %@, %@, %@", error, response, responseObject);
+                    //NSLog(@"Error: %@, %@, %@", error, response, responseObject);
                     
                     [appDel showAlertWithMessage:[error localizedDescription] andTitle:@"" andBtnTitle:@"OK"];
                     
                     [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
                 }
             }];
-            
-           
             
         }] resume];
 

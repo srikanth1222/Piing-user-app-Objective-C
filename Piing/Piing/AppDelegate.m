@@ -2312,6 +2312,20 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
 }
 
 
+-(NSMutableAttributedString *) spacingForString:(NSString *)strTitle WithSpace:(float) space withAttributes:(NSDictionary *) params
+{
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:strTitle];
+    
+    float spacing = space;
+    [attributedString addAttribute:NSKernAttributeName
+                             value:@(spacing)
+                             range:NSMakeRange(0, [strTitle length])];
+    
+    [attributedString addAttributes:params range:NSMakeRange(0, [strTitle length])];
+    
+    return attributedString;
+}
+
 
 @end
 

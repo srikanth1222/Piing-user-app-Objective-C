@@ -172,6 +172,7 @@
 -(void) spacingForTitle:(UILabel *)lblTitle TitleString:(NSString *)strTitle;
 -(void) spacingForTitle:(UILabel *)lblTitle TitleString:(NSString *)strTitle Spacing:(CGFloat) spacing;
 -(void) spacingForTextField:(UITextField *)textField TitleString:(NSString *)strTitle WithSpace:(float) space;
+-(NSMutableAttributedString *) spacingForString:(NSString *)strTitle WithSpace:(float) space withAttributes:(NSDictionary *) params;
 
 -(void) setBottomTabBarColorForTab:(int) tab;
 
