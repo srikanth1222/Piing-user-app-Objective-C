@@ -954,137 +954,190 @@
 
 -(void) loadNormaldata
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    
+    appDel.isDeleteBookView = NO;
+    appDel.hasOpenedOrderDetails = YES;
+    
+    [appDel setBottomTabBarColor:TABBAR_COLOR_GREY BlurEffectStyle:BLUR_EFFECT_STYLE_LIGHT HideBlurEffect:NO];
+    
+    self.userAddresses = [PiingHandler sharedHandler].userAddress;
+    self.userSavedCards = [PiingHandler sharedHandler].userSavedCards;
+    
+    self.deliveryDates = [[NSMutableArray alloc]init];
+    arraAlldata = [[NSMutableArray alloc]init];
+    dictDeliveryDatesAndTimes = [[NSMutableDictionary alloc]init];
+    
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    selectedTableIndex = 0;
+    
+    //Initialization
+    {
+        self.orderInfo = [NSMutableDictionary dictionaryWithCapacity:0];
         
-        appDel.isDeleteBookView = NO;
-        appDel.hasOpenedOrderDetails = YES;
+        [self.orderInfo setValue:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
+        [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:ORDER_USER_ID];
+        [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
         
-        [appDel setBottomTabBarColor:TABBAR_COLOR_GREY BlurEffectStyle:BLUR_EFFECT_STYLE_LIGHT HideBlurEffect:NO];
+        NSPredicate *getDefaultAddPredicate1 = [NSPredicate predicateWithFormat:@"default == %d", 1];
+        NSArray *sortedArray1 = [self.userSavedCards filteredArrayUsingPredicate:getDefaultAddPredicate1];
         
-        self.userAddresses = [PiingHandler sharedHandler].userAddress;
-        self.userSavedCards = [PiingHandler sharedHandler].userSavedCards;
-        
-        self.deliveryDates = [[NSMutableArray alloc]init];
-        arraAlldata = [[NSMutableArray alloc]init];
-        dictDeliveryDatesAndTimes = [[NSMutableDictionary alloc]init];
-        
-        
-        self.view.backgroundColor = [UIColor whiteColor];
-        
-        selectedTableIndex = 0;
-        
-        //Initialization
+        if(sortedArray1.count > 0)
         {
-            self.orderInfo = [NSMutableDictionary dictionaryWithCapacity:0];
+            selectedCard = [sortedArray1 objectAtIndex:0];
+        }
+        else
+        {
+            selectedCard = [self.userSavedCards objectAtIndex:0];
+        }
+        
+        [self.orderInfo setObject:[selectedCard objectForKey:@"_id"] forKey:ORDER_CARD_ID];
+        
+        if(self.isFromOrdersList) {
             
-            [self.orderInfo setValue:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
-            [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:ORDER_USER_ID];
-            [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
-            
-            NSPredicate *getDefaultAddPredicate1 = [NSPredicate predicateWithFormat:@"default == %d", 1];
-            NSArray *sortedArray1 = [self.userSavedCards filteredArrayUsingPredicate:getDefaultAddPredicate1];
-            
-            if(sortedArray1.count > 0)
+            if (appDel.isAfterBookingOrder)
             {
-                selectedCard = [sortedArray1 objectAtIndex:0];
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAuthorizationStatusToAccessEventStore) name:@"AddToCalendar" object:nil];
+            }
+            
+            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"CALENDAR_ACCESS_GRANTED"])
+            {
+                [self updateAuthorizationStatusToAccessEventStore];
+            }
+            else if (appDel.automaticAddtoCalendar)
+            {
+                appDel.automaticAddtoCalendar = NO;
+                
+                [self saveNewEvent];
+            }
+            
+            NSArray *sortedArray1 = [[NSMutableArray alloc]initWithArray:self.userAddresses];
+            NSPredicate *getDefaultAddPredicate1 = [NSPredicate predicateWithFormat:@"_id == %@", [NSString stringWithFormat:@"%@", [self.orderEditDetails objectForKey:ORDER_PICKUP_ADDRESS_ID]]];
+            
+            sortedArray1 = [sortedArray1 filteredArrayUsingPredicate:getDefaultAddPredicate1];
+            
+            if ([sortedArray1 count] > 0)
+            {
+                dictPickupAddress = [sortedArray1 objectAtIndex:0];
+            }
+            
+            NSArray *sortedArray2 = [[NSMutableArray alloc]initWithArray:self.userAddresses];
+            NSPredicate *getDefaultAddPredicate2 = [NSPredicate predicateWithFormat:@"_id == %@", [NSString stringWithFormat:@"%@", [self.orderEditDetails objectForKey:ORDER_DELIVERY_ADDRESS_ID]]];
+            
+            sortedArray2 = [sortedArray2 filteredArrayUsingPredicate:getDefaultAddPredicate2];
+            
+            if ([sortedArray2 count] > 0)
+            {
+                dictDeliveryAddress = [sortedArray2 objectAtIndex:0];
+            }
+            
+            if ([[self.orderEditDetails objectForKey:@"direction"] caseInsensitiveCompare:@"Pickup"] == NSOrderedSame)
+            {
+                self.selectedAddress = dictPickupAddress;
             }
             else
             {
-                selectedCard = [self.userSavedCards objectAtIndex:0];
+                self.selectedAddress = dictDeliveryAddress;
             }
             
-            [self.orderInfo setObject:[selectedCard objectForKey:@"_id"] forKey:ORDER_CARD_ID];
+            [self.orderInfo setObject:self.bookNowCobID forKey:@"oid"];
             
-            if(self.isFromOrdersList) {
-                
-                if (appDel.isAfterBookingOrder)
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_PICKUP_SLOT] forKey:ORDER_PICKUP_SLOT];
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_PICKUP_DATE] forKey:ORDER_PICKUP_DATE];
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_DELIVERY_SLOT] forKey:ORDER_DELIVERY_SLOT];
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_DELIVERY_DATE] forKey:ORDER_DELIVERY_DATE];
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_DELIVERY_ADDRESS_ID] forKey:ORDER_DELIVERY_ADDRESS_ID];
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_PICKUP_ADDRESS_ID] forKey:ORDER_PICKUP_ADDRESS_ID];
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_TYPE] forKey:ORDER_TYPE];
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_CARD_ID] forKey:ORDER_CARD_ID];
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_JOB_TYPE] forKey:ORDER_JOB_TYPE];
+            
+            if ([self.orderEditDetails objectForKey:PROMO_CODE])
+            {
+                [self.orderInfo setObject:[self.orderEditDetails objectForKey:PROMO_CODE] forKey:PROMO_CODE];
+            }
+            else
+            {
+                [self.orderInfo setObject:@"" forKey:PROMO_CODE];
+            }
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_NOTES] forKey:ORDER_NOTES];
+            
+            NSDictionary *dict1 = [self.orderEditDetails objectForKey:PREFERENCES_SELECTED];
+            
+            NSMutableDictionary *dictMain  = [[NSMutableDictionary alloc]init];
+            
+            for (NSDictionary *dict2 in dict1)
+            {
+                if ([dict2 objectForKey:@"value"])
                 {
-                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAuthorizationStatusToAccessEventStore) name:@"AddToCalendar" object:nil];
-                }
-                
-                if (![[NSUserDefaults standardUserDefaults] boolForKey:@"CALENDAR_ACCESS_GRANTED"])
-                {
-                    [self updateAuthorizationStatusToAccessEventStore];
-                }
-                else if (appDel.automaticAddtoCalendar)
-                {
-                    appDel.automaticAddtoCalendar = NO;
-                    
-                    [self saveNewEvent];
-                }
-                
-                NSArray *sortedArray1 = [[NSMutableArray alloc]initWithArray:self.userAddresses];
-                NSPredicate *getDefaultAddPredicate1 = [NSPredicate predicateWithFormat:@"_id == %@", [NSString stringWithFormat:@"%@", [self.orderEditDetails objectForKey:ORDER_PICKUP_ADDRESS_ID]]];
-                
-                sortedArray1 = [sortedArray1 filteredArrayUsingPredicate:getDefaultAddPredicate1];
-                
-                if ([sortedArray1 count] > 0)
-                {
-                    dictPickupAddress = [sortedArray1 objectAtIndex:0];
-                }
-                
-                NSArray *sortedArray2 = [[NSMutableArray alloc]initWithArray:self.userAddresses];
-                NSPredicate *getDefaultAddPredicate2 = [NSPredicate predicateWithFormat:@"_id == %@", [NSString stringWithFormat:@"%@", [self.orderEditDetails objectForKey:ORDER_DELIVERY_ADDRESS_ID]]];
-                
-                sortedArray2 = [sortedArray2 filteredArrayUsingPredicate:getDefaultAddPredicate2];
-                
-                if ([sortedArray2 count] > 0)
-                {
-                    dictDeliveryAddress = [sortedArray2 objectAtIndex:0];
-                }
-                
-                if ([[self.orderEditDetails objectForKey:@"direction"] caseInsensitiveCompare:@"Pickup"] == NSOrderedSame)
-                {
-                    self.selectedAddress = dictPickupAddress;
+                    [dictMain setObject:[dict2 objectForKey:@"value"] forKey:[dict2 objectForKey:@"name"]];
                 }
                 else
                 {
-                    self.selectedAddress = dictDeliveryAddress;
+                    [dictMain setObject:@"" forKey:[dict2 objectForKey:@"name"]];
                 }
+            }
+            
+            NSMutableString *strPref = [@"" mutableCopy];
+            
+            if ([dictMain count])
+            {
+                [strPref appendString:@"["];
                 
-                [self.orderInfo setObject:self.bookNowCobID forKey:@"oid"];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_PICKUP_SLOT] forKey:ORDER_PICKUP_SLOT];
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_PICKUP_DATE] forKey:ORDER_PICKUP_DATE];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_DELIVERY_SLOT] forKey:ORDER_DELIVERY_SLOT];
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_DELIVERY_DATE] forKey:ORDER_DELIVERY_DATE];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_DELIVERY_ADDRESS_ID] forKey:ORDER_DELIVERY_ADDRESS_ID];
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_PICKUP_ADDRESS_ID] forKey:ORDER_PICKUP_ADDRESS_ID];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_TYPE] forKey:ORDER_TYPE];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_CARD_ID] forKey:ORDER_CARD_ID];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_JOB_TYPE] forKey:ORDER_JOB_TYPE];
-                
-                if ([self.orderEditDetails objectForKey:PROMO_CODE])
+                for (NSString *strakey in dictMain)
                 {
-                    [self.orderInfo setObject:[self.orderEditDetails objectForKey:PROMO_CODE] forKey:PROMO_CODE];
+                    [strPref appendFormat:@"%@", [NSString stringWithFormat:@"{\"name\":\"%@\",\"value\":\"%@\"},", strakey, [dictMain objectForKey:strakey]]];
                 }
-                else
+                
+                if ([strPref hasSuffix:@","])
                 {
-                    [self.orderInfo setObject:@"" forKey:PROMO_CODE];
+                    strPref = [[strPref substringToIndex:[strPref length]-1]mutableCopy];
                 }
                 
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_NOTES] forKey:ORDER_NOTES];
-                
-                NSDictionary *dict1 = [self.orderEditDetails objectForKey:PREFERENCES_SELECTED];
-                
-                NSMutableDictionary *dictMain  = [[NSMutableDictionary alloc]init];
-                
-                for (NSDictionary *dict2 in dict1)
-                {
-                    if ([dict2 objectForKey:@"value"])
-                    {
-                        [dictMain setObject:[dict2 objectForKey:@"value"] forKey:[dict2 objectForKey:@"name"]];
-                    }
-                    else
-                    {
-                        [dictMain setObject:@"" forKey:[dict2 objectForKey:@"name"]];
-                    }
-                }
+                [strPref appendString:@"]"];
+            }
+            
+            [self.orderInfo setObject:strPref forKey:PREFERENCES_SELECTED];
+            
+            [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_FROM] forKey:ORDER_FROM];
+        }
+        else if (self.isFromBookNow)
+        {
+            arraySelectedServiceTypes = [[NSMutableArray alloc]init];
+            
+            NSArray *sortedArray = [[NSMutableArray alloc]initWithArray:self.userAddresses];
+            NSPredicate *getDefaultAddPredicate = [NSPredicate predicateWithFormat:@"default == %d", 1];
+            sortedArray = [sortedArray filteredArrayUsingPredicate:getDefaultAddPredicate];
+            
+            if ([sortedArray count] > 0)
+            {
+                self.selectedAddress = [sortedArray objectAtIndex:0];
+            }
+            else
+            {
+                self.selectedAddress = [self.userAddresses objectAtIndex:0];
+            }
+            
+            [self.orderInfo setObject:@"B" forKey:ORDER_FROM];
+            [self.orderInfo setObject:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
+            
+            [self.orderInfo setObject:[self.selectedAddress objectForKey:@"_id"] forKey:ORDER_PICKUP_ADDRESS_ID];
+            [self.orderInfo setObject:[self.selectedAddress objectForKey:@"_id"] forKey:ORDER_DELIVERY_ADDRESS_ID];
+            
+            [self.orderInfo setObject:[self.dictBookNowDetails objectForKey:ORDER_PICKUP_DATE] forKey:ORDER_PICKUP_DATE];
+            [self.orderInfo setObject:[self.dictBookNowDetails objectForKey:ORDER_PICKUP_SLOT] forKey:ORDER_PICKUP_SLOT];
+            
+            
+            if (![appDel.strGlobalPreferenes length])
+            {
+                NSMutableDictionary *dictMain = [appDel getDefaultPreferences];
                 
                 NSMutableString *strPref = [@"" mutableCopy];
                 
@@ -1105,243 +1158,209 @@
                     [strPref appendString:@"]"];
                 }
                 
-                [self.orderInfo setObject:strPref forKey:PREFERENCES_SELECTED];
-                
-                [self.orderInfo setObject:[self.orderEditDetails objectForKey:ORDER_FROM] forKey:ORDER_FROM];
-            }
-            else if (self.isFromBookNow)
-            {
-                arraySelectedServiceTypes = [[NSMutableArray alloc]init];
-                
-                NSArray *sortedArray = [[NSMutableArray alloc]initWithArray:self.userAddresses];
-                NSPredicate *getDefaultAddPredicate = [NSPredicate predicateWithFormat:@"default == %d", 1];
-                sortedArray = [sortedArray filteredArrayUsingPredicate:getDefaultAddPredicate];
-                
-                if ([sortedArray count] > 0)
-                {
-                    self.selectedAddress = [sortedArray objectAtIndex:0];
-                }
-                else
-                {
-                    self.selectedAddress = [self.userAddresses objectAtIndex:0];
-                }
-                
-                [self.orderInfo setObject:@"B" forKey:ORDER_FROM];
-                [self.orderInfo setObject:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
-                
-                [self.orderInfo setObject:[self.selectedAddress objectForKey:@"_id"] forKey:ORDER_PICKUP_ADDRESS_ID];
-                [self.orderInfo setObject:[self.selectedAddress objectForKey:@"_id"] forKey:ORDER_DELIVERY_ADDRESS_ID];
-                
-                [self.orderInfo setObject:[self.dictBookNowDetails objectForKey:ORDER_PICKUP_DATE] forKey:ORDER_PICKUP_DATE];
-                [self.orderInfo setObject:[self.dictBookNowDetails objectForKey:ORDER_PICKUP_SLOT] forKey:ORDER_PICKUP_SLOT];
-                
-                
-                if (![appDel.strGlobalPreferenes length])
-                {
-                    NSMutableDictionary *dictMain = [appDel getDefaultPreferences];
-                    
-                    NSMutableString *strPref = [@"" mutableCopy];
-                    
-                    if ([dictMain count])
-                    {
-                        [strPref appendString:@"["];
-                        
-                        for (NSString *strakey in dictMain)
-                        {
-                            [strPref appendFormat:@"%@", [NSString stringWithFormat:@"{\"name\":\"%@\",\"value\":\"%@\"},", strakey, [dictMain objectForKey:strakey]]];
-                        }
-                        
-                        if ([strPref hasSuffix:@","])
-                        {
-                            strPref = [[strPref substringToIndex:[strPref length]-1]mutableCopy];
-                        }
-                        
-                        [strPref appendString:@"]"];
-                    }
-                    
-                    appDel.strGlobalPreferenes = strPref;
-                }
-                
-                [self.orderInfo setObject:appDel.strGlobalPreferenes forKey:PREFERENCES_SELECTED];
-                
-                
-                [self.orderInfo setObject:@"" forKey:PROMO_CODE];
-                [self.orderInfo setObject:@"FROM IOS" forKey:ORDER_NOTES];
-                
-                [self.orderInfo setObject:[self.dictBookNowDetails objectForKey:@"oid"] forKey:@"oid"];
-            }
-        }
-        
-        view_BG = [[UIView alloc]initWithFrame:self.view.bounds];
-        view_BG.backgroundColor = [UIColor clearColor];
-        [self.view addSubview:view_BG];
-        
-        piingoMapView = [[GoogleMapView2 alloc] initWithFrame:CGRectMake(0.0, 0.0, screen_width, screen_height-(72*MULTIPLYHEIGHT))];
-        //piingoMapView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        piingoMapView.delegate = self;
-        [view_BG addSubview:piingoMapView];
-        
-        if ([self.selectedAddress count])
-        {
-            [piingoMapView addClientMarker:[[NSDictionary alloc] initWithObjectsAndKeys:[self.selectedAddress objectForKey:@"lat"], @"lat", [self.selectedAddress objectForKey:@"lon"], @"lon", @"home_map", @"markImage", @"no", @"clearAll", nil]];
-        }
-        
-        [piingoMapView focusMapToShowAllMarkers];
-        
-        if (self.isFromOrdersList)
-        {
-            if ([[self.orderEditDetails objectForKey:@"trackingStatus"] intValue] == 0)
-            {
-                piingoMapView.hidden = YES;
-            }
-            else
-            {
-                [self performSelectorOnMainThread:@selector(connectToSocket) withObject:nil waitUntilDone:NO];
+                appDel.strGlobalPreferenes = strPref;
             }
             
-            [self loadOrderDetails];
+            [self.orderInfo setObject:appDel.strGlobalPreferenes forKey:PREFERENCES_SELECTED];
+            
+            
+            [self.orderInfo setObject:@"" forKey:PROMO_CODE];
+            [self.orderInfo setObject:@"FROM IOS" forKey:ORDER_NOTES];
+            
+            [self.orderInfo setObject:[self.dictBookNowDetails objectForKey:@"oid"] forKey:@"oid"];
         }
-        
-        else if (self.isFromBookNow)
+    }
+    
+    view_BG = [[UIView alloc]initWithFrame:self.view.bounds];
+    view_BG.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:view_BG];
+    
+    piingoMapView = [[GoogleMapView2 alloc] initWithFrame:CGRectMake(0.0, 0.0, screen_width, screen_height-(72*MULTIPLYHEIGHT))];
+    //piingoMapView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    piingoMapView.delegate = self;
+    [view_BG addSubview:piingoMapView];
+    
+    if ([self.selectedAddress count])
+    {
+        [piingoMapView addClientMarker:[[NSDictionary alloc] initWithObjectsAndKeys:[self.selectedAddress objectForKey:@"lat"], @"lat", [self.selectedAddress objectForKey:@"lon"], @"lon", @"home_map", @"markImage", @"no", @"clearAll", nil]];
+    }
+    
+    [piingoMapView focusMapToShowAllMarkers];
+    
+    if (self.isFromOrdersList)
+    {
+        if ([[self.orderEditDetails objectForKey:@"trackingStatus"] intValue] == 0)
+        {
+            piingoMapView.hidden = YES;
+        }
+        else
         {
             [self performSelectorOnMainThread:@selector(connectToSocket) withObject:nil waitUntilDone:NO];
-            
-            closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            closeBtn.frame = CGRectMake(screen_width - 55.0, 21*MULTIPLYHEIGHT, 40, 40);
-            [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
-            [closeBtn addTarget:self action:@selector(closeScheduleScreen:) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:closeBtn];
-            
-            backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            backBtn.frame = CGRectMake(10.0, 21*MULTIPLYHEIGHT, 40.0, 40.0);
-            [backBtn setImage:[UIImage imageNamed:@"back_grey1"] forState:UIControlStateNormal];
-            [backBtn addTarget:self action:@selector(backToPreviousScreen) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:backBtn];
-            backBtn.hidden = YES;
-            backBtn.backgroundColor = [UIColor whiteColor];
-            backBtn.layer.cornerRadius = backBtn.frame.size.width/2;
-            
-            
-            
-            float piingHeight = 72*MULTIPLYHEIGHT;
-            
-            pingoDetailsView = [[DragView2 alloc] initWithFrame:CGRectMake(0.0, screen_height - piingHeight, screen_width, screen_height)];
-            pingoDetailsView.tag = 200;
-            pingoDetailsView.delegate = self;
-            pingoDetailsView.backgroundColor = [UIColor whiteColor];
-            [self.view addSubview:pingoDetailsView];
-            pingoDetailsView.userInteractionEnabled = NO;
-            
-            
-            pingoBgView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, screen_width, piingHeight)];
-            pingoBgView.backgroundColor = [UIColor whiteColor];
-            [pingoDetailsView addSubview:pingoBgView];
-            
-            
-            float imgHeight = 58*MULTIPLYHEIGHT;
-            
-            profilePicView = [[UIImageView alloc] initWithFrame:CGRectMake(15*MULTIPLYHEIGHT , piingHeight/2-(imgHeight/2), imgHeight, imgHeight)];
-            profilePicView.backgroundColor = [UIColor whiteColor];
-            
-            [profilePicView sd_setImageWithURL:[NSURL URLWithString:self.piingoImg]
-                              placeholderImage:[UIImage imageNamed:@"piingo_cap"]];
-            
-            profilePicView.layer.borderColor = [[[UIColor lightGrayColor]colorWithAlphaComponent:0.5] CGColor];
-            profilePicView.layer.borderWidth = 1.0;
-            profilePicView.layer.cornerRadius = CGRectGetWidth(profilePicView.bounds)/2;
-            profilePicView.clipsToBounds = YES;
-            
-            profilePicView.contentMode = UIViewContentModeScaleAspectFill;
-            
-            [pingoBgView addSubview:profilePicView];
-            
-            float lblNameX = profilePicView.frame.origin.x+profilePicView.frame.size.width+10;
-            
-            pingNameLbl = [[UILabel alloc] initWithFrame:CGRectMake(lblNameX, 15*MULTIPLYHEIGHT, screen_width-lblNameX, 35*MULTIPLYHEIGHT)];
-            pingNameLbl.numberOfLines = 0;
-            pingNameLbl.textAlignment = NSTextAlignmentLeft;
-            pingNameLbl.textColor = TEXT_COLOR;
-            pingNameLbl.backgroundColor = [UIColor clearColor];
-            pingNameLbl.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM-2];
-            [pingoBgView addSubview:pingNameLbl];
-            
-            NSString *strName;
-            
-            if ([self.piingoName length])
-            {
-                strName = [self.piingoName uppercaseString];
-            }
-            else
-            {
-                strName = @"PIINGO";
-            }
-            
-            NSMutableAttributedString *mainAttr = [[NSMutableAttributedString alloc]initWithString:strName];
-            [mainAttr addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BOLD size:appDel.FONT_SIZE_CUSTOM-2]} range:NSMakeRange(0, [strName length])];
-            
-            NSString *strRoute = [@" is en route" uppercaseString];
-            
-            NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:strRoute];
-            [attr1 addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-3], NSForegroundColorAttributeName:[UIColor colorFromHexString:@"939393"]} range:NSMakeRange(0, [strRoute length])];
-            
-            [mainAttr appendAttributedString:attr1];
-            
-            pingNameLbl.attributedText = mainAttr;
-            
-            
-            //ETA
-            
-            LblETA = [[UILabel alloc] initWithFrame:CGRectMake(120.0, pingNameLbl.frame.origin.y+pingNameLbl.frame.size.height+5, screen_width-150.0, 20)];
-            LblETA.textAlignment = NSTextAlignmentLeft;
-            LblETA.textColor = TEXT_COLOR;
-            LblETA.backgroundColor = [UIColor clearColor];
-            LblETA.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM-2];
-            //[pingoBgView addSubview:LblETA];
-            
-            NSString *strETAName = @"ETA";
-            
-            NSMutableAttributedString *mainETAAttr = [[NSMutableAttributedString alloc]initWithString:strETAName];
-            [mainETAAttr addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_MEDIUM size:appDel.HEADER_LABEL_FONT_SIZE], NSForegroundColorAttributeName:[UIColor colorFromHexString:@"939393"]} range:NSMakeRange(0, [strETAName length])];
-            
-            NSString *strMins;
-            
-            if ([self.bookNowETAStr length])
-            {
-                strMins = [[NSString stringWithFormat:@" %@ mins", self.bookNowETAStr] uppercaseString];
-            }
-            else
-            {
-                //strMins = [@" 15 mins" uppercaseString];
-                strMins = @"";
-            }
-            
-            NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:strMins];
-            [attr2 addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BOLD size:appDel.HEADER_LABEL_FONT_SIZE], NSForegroundColorAttributeName:[UIColor colorFromHexString:@"0faee8"]} range:NSMakeRange(0, [strMins length])];
-            
-            [mainETAAttr appendAttributedString:attr2];
-            
-            LblETA.attributedText = mainETAAttr;
-            
-            
-            view_BlurBGForBookNow = [[UIView alloc]initWithFrame:self.view.bounds];
-            view_BlurBGForBookNow.backgroundColor = [UIColor blackColor];
-            [self.view addSubview:view_BlurBGForBookNow];
-            view_BlurBGForBookNow.alpha = 0.0;
-            
-            [self.view insertSubview:pingoDetailsView aboveSubview:view_BlurBGForBookNow];
-            
-            [self createWashTypesView];
-            [self createDeliveryDetailsView];
-            
-            [self.view bringSubviewToFront:pingoDetailsView];
-            [self.view bringSubviewToFront:closeBtn];
-            [self.view bringSubviewToFront:backBtn];
-            
-            [self performSelector:@selector(automaticSwipeUpDetailsView) withObject:nil afterDelay:2];
-            
         }
         
-    }];
+        [self loadOrderDetails];
+    }
+    
+    else if (self.isFromBookNow)
+    {
+        if (self.isCurrentTimeSlot)
+        {
+            [self performSelectorOnMainThread:@selector(connectToSocket) withObject:nil waitUntilDone:NO];
+        }
+        
+        closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        closeBtn.frame = CGRectMake(screen_width - 55.0, 21*MULTIPLYHEIGHT, 40, 40);
+        [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+        [closeBtn addTarget:self action:@selector(closeScheduleScreen:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:closeBtn];
+        
+        backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        backBtn.frame = CGRectMake(10.0, 21*MULTIPLYHEIGHT, 40.0, 40.0);
+        [backBtn setImage:[UIImage imageNamed:@"back_grey1"] forState:UIControlStateNormal];
+        [backBtn addTarget:self action:@selector(backToPreviousScreen) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:backBtn];
+        backBtn.hidden = YES;
+        backBtn.backgroundColor = [UIColor whiteColor];
+        backBtn.layer.cornerRadius = backBtn.frame.size.width/2;
+        
+        
+        
+        float piingHeight = 72*MULTIPLYHEIGHT;
+        
+        pingoDetailsView = [[DragView2 alloc] initWithFrame:CGRectMake(0.0, screen_height - piingHeight, screen_width, screen_height)];
+        pingoDetailsView.tag = 200;
+        pingoDetailsView.delegate = self;
+        pingoDetailsView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:pingoDetailsView];
+        pingoDetailsView.userInteractionEnabled = NO;
+        
+        
+        pingoBgView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, screen_width, piingHeight)];
+        pingoBgView.backgroundColor = [UIColor whiteColor];
+        [pingoDetailsView addSubview:pingoBgView];
+        
+        
+        float imgHeight = 58*MULTIPLYHEIGHT;
+        
+        profilePicView = [[UIImageView alloc] initWithFrame:CGRectMake(15*MULTIPLYHEIGHT , piingHeight/2-(imgHeight/2), imgHeight, imgHeight)];
+        profilePicView.backgroundColor = [UIColor whiteColor];
+        
+        [profilePicView sd_setImageWithURL:[NSURL URLWithString:self.piingoImg]
+                          placeholderImage:[UIImage imageNamed:@"piingo_cap"]];
+        
+        profilePicView.layer.borderColor = [[[UIColor lightGrayColor]colorWithAlphaComponent:0.5] CGColor];
+        profilePicView.layer.borderWidth = 1.0;
+        profilePicView.layer.cornerRadius = CGRectGetWidth(profilePicView.bounds)/2;
+        profilePicView.clipsToBounds = YES;
+        
+        profilePicView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        [pingoBgView addSubview:profilePicView];
+        
+        float lblNameX = profilePicView.frame.origin.x+profilePicView.frame.size.width+10;
+        
+        pingNameLbl = [[UILabel alloc] initWithFrame:CGRectMake(lblNameX, 15*MULTIPLYHEIGHT, screen_width-lblNameX, 35*MULTIPLYHEIGHT)];
+        pingNameLbl.numberOfLines = 0;
+        pingNameLbl.textAlignment = NSTextAlignmentLeft;
+        pingNameLbl.textColor = TEXT_COLOR;
+        pingNameLbl.backgroundColor = [UIColor clearColor];
+        pingNameLbl.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM-2];
+        [pingoBgView addSubview:pingNameLbl];
+        
+        NSString *strName;
+        
+        if ([self.piingoName length])
+        {
+            strName = [self.piingoName uppercaseString];
+        }
+        else
+        {
+            strName = @"PIINGO";
+        }
+        
+        NSMutableAttributedString *mainAttr = [[NSMutableAttributedString alloc]initWithString:strName];
+        [mainAttr addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BOLD size:appDel.FONT_SIZE_CUSTOM-1]} range:NSMakeRange(0, [strName length])];
+        
+        NSString *strRoute;
+        
+        NSRange range;
+        
+        if ([self.bookNowETAStr length])
+        {
+            strRoute = [[NSString stringWithFormat:@" will arrive\nbetween %@ for pick-up", self.bookNowETAStr] uppercaseString];
+            range = [strRoute rangeOfString:self.bookNowETAStr];
+        }
+        else
+        {
+            strRoute = [[NSString stringWithFormat:@" will arrive\nbetween %@ for pick-up", [self.orderInfo objectForKey:ORDER_PICKUP_SLOT]] uppercaseString];
+            range = [strRoute rangeOfString:[self.orderInfo objectForKey:ORDER_PICKUP_SLOT]];
+        }
+        
+        //NSString *strRoute = [@" is en route" uppercaseString];
+        
+        NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:strRoute];
+        
+        [attr1 addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-4], NSForegroundColorAttributeName:[UIColor darkGrayColor]} range:NSMakeRange(0, [strRoute length])];
+        
+        [attr1 addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM], NSForegroundColorAttributeName:BLUE_COLOR} range:range];
+        
+        [mainAttr appendAttributedString:attr1];
+        
+        pingNameLbl.attributedText = mainAttr;
+        
+        
+        //ETA
+        
+        LblETA = [[UILabel alloc] initWithFrame:CGRectMake(120.0, pingNameLbl.frame.origin.y+pingNameLbl.frame.size.height+5, screen_width-150.0, 20)];
+        LblETA.textAlignment = NSTextAlignmentLeft;
+        LblETA.textColor = TEXT_COLOR;
+        LblETA.backgroundColor = [UIColor clearColor];
+        LblETA.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM-2];
+        //[pingoBgView addSubview:LblETA];
+        
+        NSString *strETAName = @"ETA";
+        
+        NSMutableAttributedString *mainETAAttr = [[NSMutableAttributedString alloc]initWithString:strETAName];
+        [mainETAAttr addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_MEDIUM size:appDel.HEADER_LABEL_FONT_SIZE], NSForegroundColorAttributeName:[UIColor colorFromHexString:@"939393"]} range:NSMakeRange(0, [strETAName length])];
+        
+        NSString *strMins;
+        
+        if ([self.bookNowETAStr length])
+        {
+            strMins = [[NSString stringWithFormat:@" %@ mins", self.bookNowETAStr] uppercaseString];
+        }
+        else
+        {
+            //strMins = [@" 15 mins" uppercaseString];
+            strMins = @"";
+        }
+        
+        NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:strMins];
+        [attr2 addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BOLD size:appDel.HEADER_LABEL_FONT_SIZE], NSForegroundColorAttributeName:[UIColor colorFromHexString:@"0faee8"]} range:NSMakeRange(0, [strMins length])];
+        
+        [mainETAAttr appendAttributedString:attr2];
+        
+        LblETA.attributedText = mainETAAttr;
+        
+        
+        view_BlurBGForBookNow = [[UIView alloc]initWithFrame:self.view.bounds];
+        view_BlurBGForBookNow.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:view_BlurBGForBookNow];
+        view_BlurBGForBookNow.alpha = 0.0;
+        
+        [self.view insertSubview:pingoDetailsView aboveSubview:view_BlurBGForBookNow];
+        
+        [self createWashTypesView];
+        [self createDeliveryDetailsView];
+        
+        [self.view bringSubviewToFront:pingoDetailsView];
+        [self.view bringSubviewToFront:closeBtn];
+        [self.view bringSubviewToFront:backBtn];
+        
+        [self performSelector:@selector(automaticSwipeUpDetailsView) withObject:nil afterDelay:2];
+        
+    }
+    
 }
 
 

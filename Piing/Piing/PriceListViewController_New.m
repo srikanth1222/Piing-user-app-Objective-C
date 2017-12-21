@@ -840,18 +840,22 @@
             
             if ([strJobType isEqualToString:SERVICETYPE_WF] || [strJobType isEqualToString:SERVICETYPE_CA])
             {
+                totalCategories = 0;
                 [self setloadWashText:[responseObj objectForKey:@"prices"]];
             }
             else if ([strJobType isEqualToString:SERVICETYPE_SHOE_CLEAN] || [strJobType isEqualToString:SERVICETYPE_SHOE_POLISH])
             {
+                totalCategories = 0;
                 [self showShoeServiceTypes];
             }
             else if ([strJobType containsString:@"CC_"])
             {
+                totalCategories = 0;
                 [self showCurtainCleaning];
             }
             else if ([strJobType isEqualToString:SERVICETYPE_BAG])
             {
+                totalCategories = 0;
                 [self showBagCategories];
             }
             else

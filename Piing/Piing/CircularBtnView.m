@@ -51,13 +51,13 @@ BOOL animating;
         
         float cdLblHeight = 22*MULTIPLYHEIGHT;
         
-        countdownLabel = [[UILabel alloc] initWithFrame:CGRectMake(4*MULTIPLYHEIGHT, 7*MULTIPLYHEIGHT, cdLblHeight, cdLblHeight)];
+        countdownLabel = [[UILabel alloc] initWithFrame:CGRectMake(5*MULTIPLYHEIGHT, 7*MULTIPLYHEIGHT, cdLblHeight, cdLblHeight)];
         //countdownLabel.center = CGPointMake(19, 27.0);
         countdownLabel.backgroundColor = [UIColor clearColor];
         countdownLabel.text = @"15";
         countdownLabel.textAlignment = NSTextAlignmentCenter;
         countdownLabel.textColor = APPLE_BLUE_COLOR;
-        countdownLabel.font = [UIFont fontWithName:APPFONT_BOLD size:appDel.FONT_SIZE_CUSTOM];
+        countdownLabel.font = [UIFont fontWithName:APPFONT_BOLD size:appDel.FONT_SIZE_CUSTOM-2];
         [timerImageView addSubview:countdownLabel];
         
         [self addSubview:timerImageView];
@@ -72,7 +72,7 @@ BOOL animating;
         [timerBtn addTarget:self action:@selector(btnPressed) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:timerBtn];
         
-        [self addPulseLayer];
+        //[self addPulseLayer];
         
         float aiHeight = 127*MULTIPLYHEIGHT;
         
@@ -154,34 +154,12 @@ BOOL animating;
     
     if ([timerImageView isHidden])
     {
-        //[self showOnlyWaves];
-        
         appDel.openScheduleLater = YES;
-        [paentDel performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:0];
+        [paentDel performSelector:@selector(searchingForNearestPiingo) withObject:nil afterDelay:0.1];
     }
     else
     {
-        [UIView animateWithDuration:1
-                              delay:0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-//                             CGAffineTransform trans = timerBtn.imageView.transform;
-//                             CGAffineTransformTranslate(trans, 40, 40);
-//                             CGAffineTransformScale(trans, 1.4, 1.4);
-//                             timerBtn.imageView.transform = trans;
-                             
-                             //timerBtn.imageView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-                             
-                         }
-                         completion:^(BOOL finished){
-                             NSLog(@"Done");
-                             
-                             //timerBtn.imageView.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                             
-                             [paentDel performSelector:@selector(confirmBookOrderNow) withObject:nil];
-
-                         }];
-        
+        [paentDel performSelector:@selector(confirmBookOrderNow) withObject:nil];
     }
 }
 
@@ -191,56 +169,34 @@ BOOL animating;
 
 -(void) showOnlyWaves
 {
+    if (!self.halo)
+    {
+        [self addPulseLayer];
+    }
     
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        
-        self.halo.hidden = NO;
-        
-        BOOL found = NO;
-        
-        for (CALayer *layer in self.layer.sublayers)
-        {
-            if ([layer isKindOfClass:[PulsingHaloLayer class]])
-            {
-                found = YES;
-            }
-        }
-        
-        if (!found)
-        {
-            self.halo = nil;
-            [self addPulseLayer];
-        }
-        
-        timerBtn.hidden = YES;
-        anchorimageView.hidden = YES;
-        timerImageView.hidden = YES;
-        
-    }];
-    
+    timerBtn.hidden = YES;
+    anchorimageView.hidden = YES;
+    timerImageView.hidden = YES;
 }
+
 -(void) offWaves
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        
-        self.halo.hidden = YES;
-        timerBtn.hidden = NO;
-        anchorimageView.hidden = NO;
-        timerImageView.hidden = YES;
-        
-    }];
+    [self.halo removeFromSuperlayer];
+    self.halo = nil;
+    
+    timerBtn.hidden = NO;
+    anchorimageView.hidden = NO;
+    timerImageView.hidden = YES;
 }
 
 -(void) hideAllData
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        
-        self.halo.hidden = YES;
-        timerBtn.hidden = YES;
-        anchorimageView.hidden = YES;
-        timerImageView.hidden = YES;
-        
-    }];
+    [self.halo removeFromSuperlayer];
+    self.halo = nil;
+    
+    timerBtn.hidden = YES;
+    anchorimageView.hidden = YES;
+    timerImageView.hidden = YES;
 }
 
 
@@ -288,23 +244,19 @@ BOOL animating;
     
     [anchorimageView.layer addAnimation:pathAnimation forKey:nil];
 }
+
 -(void) setDetails:(int) value
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        
-        if (value == 1)
-        {
-            timerImageView.hidden = NO;
-            [timerBtn setImage:[UIImage imageNamed:@"logo_icon.png"] forState:UIControlStateNormal];
-        }
-        else if (value ==2)
-        {
-            timerImageView.hidden = YES;
-            [timerBtn setImage:[UIImage imageNamed:@"refresh_icon.png"] forState:UIControlStateNormal];
-        }
-        
-    }];
-
+    if (value == 1)
+    {
+        timerImageView.hidden = NO;
+        [timerBtn setImage:[UIImage imageNamed:@"logo_icon.png"] forState:UIControlStateNormal];
+    }
+    else if (value ==2)
+    {
+        timerImageView.hidden = YES;
+        [timerBtn setImage:[UIImage imageNamed:@"refresh_icon.png"] forState:UIControlStateNormal];
+    }
 }
 
 

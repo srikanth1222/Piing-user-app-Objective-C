@@ -213,7 +213,8 @@
     lbl2.textColor = [UIColor whiteColor];
     lbl2.numberOfLines = 0;
     lbl2.textAlignment = NSTextAlignmentCenter;
-    lbl2.text = [@"Tap here within\n15 seconds\nto book now" uppercaseString];
+    //lbl2.text = [@"Tap here within\n15 seconds\nto book now" uppercaseString];
+    lbl2.text = [@"Tap here\nto book now" uppercaseString];
     [view_Middle addSubview:lbl2];
     
     CGSize lbl2Size = [AppDelegate getLabelSizeForMediumText:lbl2.text WithWidth:view_Middle.frame.size.width FontSize:lbl2.font.pointSize];
@@ -353,18 +354,7 @@
 //
 //        [self showPopupForBagAndShoe];
         
-        
-        [timerView hideAllData];
-        [timerView showOnlyWaves];
-        
-        addressBtn.userInteractionEnabled = NO;
-        
-        lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-        lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-        
-        etaLabel.text = @"";
-        
-        [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:1.5];
+        [self searchingForNearestPiingo];
         
     }];
 }
@@ -505,8 +495,6 @@
     timerView.backgroundColor = [UIColor clearColor];
     timerView.center = CGPointMake(screen_width/2-(3*MULTIPLYHEIGHT), screen_height/2);
     [backGroundTemView addSubview:timerView];
-    timerView.hidden = YES;
-    [timerView hideAllData];
     
     
     //float minusLblHeight = 50*MULTIPLYHEIGHT;
@@ -683,7 +671,6 @@
         
         // FOR DEMO SCREENS, UNCOMMENT THIS
         
-        [timerView hideAllData];
         [timerView offWaves];
         [timerView setDetails:1];
         
@@ -708,17 +695,7 @@
         {
             if (!intervalTime)
             {
-                [timerView hideAllData];
-                [timerView showOnlyWaves];
-                
-                addressBtn.userInteractionEnabled = NO;
-                
-                lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-                lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-                
-                etaLabel.text = @"";
-                
-                [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:1.5];
+                [self searchingForNearestPiingo];
             }
         }
     }
@@ -943,34 +920,13 @@
         
         [appDel removeCustomBlurEffectToView:appDel.window];
         
-        
-        [timerView hideAllData];
-        [timerView showOnlyWaves];
-        
-        addressBtn.userInteractionEnabled = NO;
-        
-        lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-        lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-        
-        etaLabel.text = @"";
-        
-        [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:1.5];
+        [self searchingForNearestPiingo];
         
     }];
 }
 
 - (void) loadAPIForBookNowStatus
 {
-    
-    schduleLaterButton.hidden = NO;
-    timerView.hidden = NO;
-    [timerView showOnlyWaves];
-    timerView.userInteractionEnabled = NO;
-    
-    lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-    lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-    lblTopDesc.hidden = NO;
-    
     NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/orderbookingavailable", BASE_URL];
@@ -981,68 +937,61 @@
         
         if (!isCurrentScreenAppearing)
         {
+            timerView.userInteractionEnabled = YES;
+            addressBtn.userInteractionEnabled = YES;
+            
+            [intervalTime invalidate];
+            intervalTime = nil;
+            
             [timerView offWaves];
             [timerView setDetails:2];
+            [timerView stopRotate2];
             
             return;
         }
         
         if ([[[responseObj objectForKey:@"order"] objectForKey:@"bookNow"] boolValue])
         {
-            [self performSelectorOnMainThread:@selector(bookNow) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(getETA) withObject:nil waitUntilDone:NO];
         }
         else if ([[[responseObj objectForKey:@"order"] objectForKey:@"sheduleLater"] boolValue])
         {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            timerView.userInteractionEnabled = YES;
+            addressBtn.userInteractionEnabled = YES;
+            
+            [timerView offWaves];
+            [timerView setDetails:2];
+            
+            lblTopDesc.text = [responseObj objectForKey:@"error"];
+            
+            etaLabel.hidden = YES;
+            
+            if (isFirstTimeScheduleLaterClicked || appDel.openScheduleLater)
+            {
+                isFirstTimeScheduleLaterClicked = NO;
+                appDel.openScheduleLater = NO;
                 
-                timerView.userInteractionEnabled = YES;
-                addressBtn.userInteractionEnabled = YES;
-                
-                [timerView offWaves];
-                timerView.hidden = YES;
-                [timerView setDetails:2];
-                
-                lblTopDesc.hidden = NO;
-                lblTopDesc.text = [responseObj objectForKey:@"error"];
-                
-                //clickLbl.text = @"rejgweuigejebfvjksdvkusdgkfugsafcgsafgqwefgwjye";
-                
-                etaLabel.hidden = YES;
-                
-                if (isFirstTimeScheduleLaterClicked || appDel.openScheduleLater)
+                if (!isCurrentScreenAppearing)
                 {
-                    isFirstTimeScheduleLaterClicked = NO;
-                    appDel.openScheduleLater = NO;
-                    
-                    if (!isCurrentScreenAppearing)
-                    {
-                        return;
-                    }
-                    
-                    addressBtn.userInteractionEnabled = NO;
-                    
-                    strErrorMessage = [responseObj objectForKey:@"em"];
-                    
-                    [self performSelector:@selector(schduleLaterBtnClicked) withObject:nil afterDelay:0.3];
-                    
-                    //[appDel displayErrorMessagErrorResponse:responseObj];
-                    
+                    return;
                 }
                 
-            }];
+                //addressBtn.userInteractionEnabled = NO;
+                
+                strErrorMessage = [responseObj objectForKey:@"em"];
+                
+                [self performSelector:@selector(schduleLaterBtnClicked) withObject:nil afterDelay:0.1];
+            }
         }
         
         else {
             
             addressBtn.userInteractionEnabled = YES;
-            
             timerView.userInteractionEnabled = YES;
             
             [timerView offWaves];
-            timerView.hidden = YES;
             [timerView setDetails:2];
             
-            lblTopDesc.hidden = NO;
             lblTopDesc.text = [responseObj objectForKey:@"error"];
             
             etaLabel.hidden = YES;
@@ -1130,10 +1079,8 @@
             
             {
                 
-                
                 // FOR DEMO SCREENS, UNCOMMENT THIS
                 
-                [timerView hideAllData];
                 [timerView offWaves];
                 [timerView setDetails:1];
                 
@@ -1185,15 +1132,12 @@
 
 -(void) addressSelectionBtnClicked:(UIButton *) sender
 {
-    
     if ([addressBtn isSelected])
     {
         [self closeCustomPopover];
         
         return;
     }
-    
-    [timerView offWaves];
     
     [appDel applyCustomBlurEffetForView:appDel.customTabBarController.tabBar WithBlurRadius:5];
     [appDel applyCustomBlurEffetForView:self.view WithBlurRadius:5];
@@ -1231,8 +1175,6 @@
     
     [self.view bringSubviewToFront:addressBtn];
     [self.view bringSubviewToFront:customPopOverView];
-    
-    //addressBtn.userInteractionEnabled = NO;
     
     int yVal = addressBtn.frame.origin.y;
     
@@ -1279,8 +1221,6 @@
     
     [customPopOverView reloadPopOverViewWithTag:2];
     
-    [timerView offWaves];
-    
     [UIView animateWithDuration:0.2 delay:0.1 options:0 animations:^{
         
         customPopOverView.alpha = 0.0;
@@ -1290,47 +1230,39 @@
         [customPopOverView removeFromSuperview];
         customPopOverView = nil;
         
-        timerView.hidden = YES;
-        [timerView hideAllData];
-        
         addressBtn.selected = NO;
         
         [piingoMapView addClientMarker:[[NSDictionary alloc] initWithObjectsAndKeys:[selectedAddressDic objectForKey:@"lat"], @"lat",[selectedAddressDic objectForKey:@"lon"], @"lon", @"home_map", @"markImage", nil]];
         [piingoMapView focusMapToShowAllMarkers];
         
-        
-        NSString *strAddr = [NSString stringWithFormat:@"%@, %@, %@",[[selectedAddressDic objectForKey:@"aname"] capitalizedString], [selectedAddressDic objectForKey:@"ad"],[selectedAddressDic objectForKey:@"zip"]];
-        
-        if ([[addressBtn titleForState:UIControlStateNormal] isEqualToString:strAddr])
-        {
-            [timerView showOnlyWaves];
-        }
-        else
-        {
-            lblTopDesc.hidden = YES;
-        }
+        etaLabel.hidden = YES;
         
         [addressBtn setTitle:[self setTitleForAddress] forState:UIControlStateNormal];
         
-        
-        lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-        lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-        
-        addressBtn.userInteractionEnabled = NO;
-        
-        [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:1.0];
+        [self searchingForNearestPiingo];
         
     }];
     
     addressBtn.selected = NO;
     
     selectedAddressDic = [userAddresses objectAtIndex:row];
+}
+
+-(void) searchingForNearestPiingo
+{
+    [timerView showOnlyWaves];
     
+    lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
+    lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
+    
+    timerView.userInteractionEnabled = NO;
+    addressBtn.userInteractionEnabled = NO;
+    
+    [self performSelector:@selector(loadAPIForBookNowStatus) withObject:nil afterDelay:2.5];
 }
 
 -(void) closeCustomPopover
 {
-    
     [UIView animateWithDuration:0.2 delay:0.0 options:0 animations:^{
         
         CGRect frame = backGroundTemView.frame;
@@ -1347,9 +1279,6 @@
     [appDel removeCustomBlurEffectToView:self.view];
     
     [customPopOverView reloadPopOverViewWithTag:2];
-    
-    [timerView offWaves];
-    [timerView setDetails:2];
     
     [UIView animateWithDuration:0.2 delay:0.1 options:0 animations:^{
         
@@ -1388,17 +1317,11 @@
     }
 }
 
--(void) bookNow
+-(void) getETA
 {
-    schduleLaterButton.hidden = NO;
-    timerView.hidden = NO;
-    [timerView showOnlyWaves];
-    timerView.userInteractionEnabled = NO;
+    NSString *versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
-    lblTopDesc.text = @"SEARCHING FOR YOUR NEAREST PIINGO";
-    lblTopDesc.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-    
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"WF", @"serviceTypes", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"WF", @"serviceTypes", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", versionNumber, @"ver", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/eta", BASE_URL];
     
@@ -1407,16 +1330,16 @@
         [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
         
         timerView.userInteractionEnabled = YES;
+        addressBtn.userInteractionEnabled = YES;
         
         strErrorMessage = @"";
         
         if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1) {
             
-            piinfDetailDic = [responseObj objectForKey:@"order"];
+            //piinfDetailDic = [responseObj objectForKey:@"order"];
             
-            addressBtn.userInteractionEnabled = NO;
+            piinfDetailDic = [NSDictionary dictionaryWithDictionary:responseObj];
             
-            timerView.hidden = NO;
             [timerView offWaves];
             [timerView setDetails:1];
             
@@ -1425,49 +1348,55 @@
                 intervalTime = nil;
             }
             
-            timerView.countdownLabel.text = [NSString stringWithFormat:@"%d",15];
+            timerView.countdownLabel.text = [NSString stringWithFormat:@"%d", [[responseObj objectForKey:@"rTime"] intValue]];
             
             intervalTime = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
-            countDownTime = 15;
+            countDownTime = [[responseObj objectForKey:@"rTime"] intValue];
             
             [timerView rotate2:countDownTime];
             
-            bookNowETAStr = [NSString stringWithFormat:@"%d", [[[responseObj objectForKey:@"order"] objectForKey:@"eta"] intValue]];
-            strPiingoId = [NSString stringWithFormat:@"%d", [[[responseObj objectForKey:@"order"] objectForKey:@"pid"] intValue]];
+            bookNowETAStr = [NSString stringWithFormat:@"%@", [responseObj objectForKey:@"slot"]];
+            strPiingoId = [NSString stringWithFormat:@"%d", [[responseObj objectForKey:@"pid"] intValue]];
             
             DLog(@"bookNowETAStr:%@",bookNowETAStr);
             
+            NSString *str1 = @"";
             
-            NSString *str1 = @"PIINGO WILL ARRIVE IN\n";
-            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:str1];
-            [attrStr addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-3]} range:NSMakeRange(0, str1.length)];
-            NSString *str2 = [NSString stringWithFormat:@"%@ MINS", bookNowETAStr];
-            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", str1, str2]];
+            if ([responseObj objectForKey:@"name"])
+            {
+                str1 = [NSString stringWithFormat:@"%@ WILL ARRIVE BETWEEN\n", [[responseObj objectForKey:@"name"] uppercaseString]];
+            }
+            else
+            {
+                str1 = @"PIINGO WILL ARRIVE BETWEEN\n";
+            }
+            
+            NSString *str2 = [NSString stringWithFormat:@"%@", bookNowETAStr];
+            
+            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", str1, str2]];
             NSMutableParagraphStyle *paragrapStyle = [[NSMutableParagraphStyle alloc] init];
             paragrapStyle.alignment = NSTextAlignmentCenter;
             [paragrapStyle setLineSpacing:10.0f];
             [paragrapStyle setMaximumLineHeight:100.0f];
             
-            [string addAttribute:NSParagraphStyleAttributeName value:paragrapStyle range:NSMakeRange(0, string.length)];
+            [attrString addAttribute:NSParagraphStyleAttributeName value:paragrapStyle range:NSMakeRange(0, attrString.length)];
             
-            UIFont *font1 = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE-5];
-            [string addAttribute:NSFontAttributeName value:font1 range:NSMakeRange(0, str1.length)];
+            UIFont *font1 = [UIFont fontWithName:APPFONT_BOLD size:appDel.HEADER_LABEL_FONT_SIZE-5];
+            [attrString addAttribute:NSFontAttributeName value:font1 range:NSMakeRange(0, str1.length)];
             
-            UIFont *font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.HEADER_LABEL_FONT_SIZE];
-            [string addAttribute:NSFontAttributeName value:font range:NSMakeRange(str1.length, str2.length)];
+            UIFont *font = [UIFont fontWithName:APPFONT_BOLD size:appDel.HEADER_LABEL_FONT_SIZE];
+            [attrString addAttribute:NSFontAttributeName value:font range:NSMakeRange(str1.length, str2.length)];
             
-            [string addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, string.length)];
+            [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, attrString.length)];
             
-            etaLabel.attributedText = string;
+            etaLabel.attributedText = attrString;
             
             etaLabel.hidden = NO;
-            lblTopDesc.hidden = NO;
             lblTopDesc.text = [@"TAP TO BOOK NOW" uppercaseString];
             
             lblTopDesc.font = [UIFont fontWithName:APPFONT_Heavy size:appDel.HEADER_LABEL_FONT_SIZE-3];
         }
         else {
-            addressBtn.userInteractionEnabled = YES;
             
             if (isFirstTimeScheduleLaterClicked  || appDel.openScheduleLater)
             {
@@ -1481,7 +1410,7 @@
                 
                 strErrorMessage = [responseObj objectForKey:@"error"];
                 
-                [self performSelector:@selector(schduleLaterBtnClicked) withObject:nil afterDelay:0.3];
+                [self performSelector:@selector(schduleLaterBtnClicked) withObject:nil afterDelay:0.1];
             }
             
             [timerView offWaves];
@@ -1504,22 +1433,16 @@
         return;
     }
     
-//    [self bookOrderNowConform];
-//    
-//    return;
-    
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"B", @"orderType", @"WF", @"serviceTypes", @"R", @"orderSpeed", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", strPiingoId, @"pid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"B", @"orderType", @"WF", @"serviceTypes", @"R", @"orderSpeed", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", strPiingoId, @"pid", bookNowETAStr, @"pickUpSlotId", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/book", BASE_URL];
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:detailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
-        timerView.userInteractionEnabled = YES;
         
         if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
         {
-            
             if(intervalTime)
             {
                 [intervalTime invalidate];
@@ -1530,9 +1453,7 @@
             
             piingBgView.hidden = NO;
             
-            timerView.userInteractionEnabled = YES;
-            
-            [self performSelector:@selector(bookOrderNowConform) withObject:nil afterDelay:3];
+            [self performSelector:@selector(bookOrderNowConform) withObject:nil afterDelay:1.0];
         }
         else
         {
@@ -1556,8 +1477,6 @@
     
     isCurrentScreenAppearing = NO;
     
-    timerView.userInteractionEnabled = YES;
-    
     AddressFeild *objAddress = [[AddressFeild alloc] init];
     
     objAddress.addressID = [selectedAddressDic objectForKey:@"_id"];
@@ -1578,6 +1497,7 @@
     bookVC.piingoImg = [piinfDetailDic objectForKey:@"image"];
     bookVC.piingoName = [piinfDetailDic objectForKey:@"name"];
     bookVC.piingoId = [piinfDetailDic objectForKey:@"pid"];
+    bookVC.isCurrentTimeSlot = [[piinfDetailDic objectForKey:@"isItCurrentSlot"] boolValue];
     
     bookVC.view.frame = CGRectMake(0.0, screen_height, screen_width, screen_height);
     [self addChildViewController:bookVC];
@@ -1636,26 +1556,20 @@
 
 -(void) updateTime
 {
-    
-    countDownTime = countDownTime -1;
-    timerView.countdownLabel.text = [NSString stringWithFormat:@"%d",countDownTime];
+    countDownTime = countDownTime - 1;
+    timerView.countdownLabel.text = [NSString stringWithFormat:@"%d", countDownTime];
     
     if (countDownTime == 0)
     {
-        addressBtn.userInteractionEnabled = YES;
-        
         [intervalTime invalidate];
         intervalTime = nil;
         
         [timerView setDetails:2];
-        
         [timerView stopRotate2];
         
         etaLabel.hidden = YES;
-        //        clickLbl.hidden = YES;
         lblTopDesc.text = @"TAP TO REFRESH";
         lblTopDesc.font = [UIFont fontWithName:APPFONT_Heavy size:appDel.HEADER_LABEL_FONT_SIZE-3];
-
     }
 }
 

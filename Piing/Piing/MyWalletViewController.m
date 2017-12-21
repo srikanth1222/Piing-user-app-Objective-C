@@ -14,7 +14,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <FirebaseAnalytics/FIRAnalytics.h>
 
-
+#define TABLEVIEW_HEIGHT 120*MULTIPLYHEIGHT
 
 @interface MyWalletViewController () <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 {
@@ -128,33 +128,30 @@
         
         [NSThread detachNewThreadSelector:@selector(hideLoader) toTarget:appDel withObject:nil];
         
-        if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1){
+        if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1) {
             
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                
-                [dictMyWallet removeAllObjects];
-                
-                [dictMyWallet addEntriesFromDictionary:responseObj];
-                
-                if(responseObj &&[[responseObj objectForKey:@"creditList"] count])
+            [dictMyWallet removeAllObjects];
+            
+            [dictMyWallet addEntriesFromDictionary:responseObj];
+            
+            if(responseObj &&[[responseObj objectForKey:@"creditList"] count])
+            {
+                [arrayFreeWashes removeAllObjects];
+                [arrayFreeWashes addObjectsFromArray:[responseObj objectForKey:@"creditList"]];
+            }
+            
+            [self loadFreeWashes];
+            
+            if ([arrayFreeWashes count])
+            {
+                if (view_Share.userInteractionEnabled || isTableFreeWashHidden)
                 {
-                    [arrayFreeWashes removeAllObjects];
-                    [arrayFreeWashes addObjectsFromArray:[responseObj objectForKey:@"creditList"]];
+                    [self performSelector:@selector(swipeDown:) withObject:nil afterDelay:2.0];
                 }
-                
-                [self loadFreeWashes];
-                
-                if ([arrayFreeWashes count])
-                {
-                    if (view_Share.userInteractionEnabled || isTableFreeWashHidden)
-                    {
-                        [self performSelector:@selector(swipeDown:) withObject:nil afterDelay:2.0];
-                    }
-                }
-                
-                [tblFreeWash reloadData];
-                
-            }];
+            }
+            
+            [tblFreeWash reloadData];
+            
         }
         else {
             
@@ -918,7 +915,7 @@
         cell.contentView.backgroundColor = [UIColor clearColor];
         
         float bgX = 29*MULTIPLYHEIGHT;
-        float bgHeight = 79*MULTIPLYHEIGHT;
+        float bgHeight = TABLEVIEW_HEIGHT-20*MULTIPLYHEIGHT;
         
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(bgX, 0.0, tableView.frame.size.width-(bgX*2), bgHeight)];
         bgView.tag = 23;
@@ -927,7 +924,7 @@
         [cell.contentView addSubview:bgView];
         
         UIImageView *img_Bg = [[UIImageView alloc]initWithFrame:bgView.bounds];
-        img_Bg.image = [UIImage imageNamed:@"mywallet_strip"];
+        img_Bg.image = [UIImage imageNamed:@"mywallet_strip2"];
         [bgView addSubview:img_Bg];
         
         UILabel *lblUnlock = [[UILabel alloc] init];
@@ -957,12 +954,24 @@
         
         UILabel *lblExpires = [[UILabel alloc] initWithFrame:bgView.bounds];
         lblExpires.tag = 29;
+        lblExpires.numberOfLines = 0;
         lblExpires.textAlignment = NSTextAlignmentCenter;
         lblExpires.backgroundColor = [UIColor clearColor];
         lblExpires.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-5];
-        lblExpires.textColor = [UIColor darkGrayColor];
+        lblExpires.textColor = [UIColor whiteColor];
         [bgView addSubview:lblExpires];
         
+        UIView *bgMinOrdVal = [[UIView alloc]init];
+        bgMinOrdVal.tag = 31;
+        [bgView addSubview:bgMinOrdVal];
+        
+        UILabel *lblMinimumOrderValue = [[UILabel alloc] initWithFrame:bgView.bounds];
+        lblMinimumOrderValue.tag = 30;
+        lblMinimumOrderValue.textAlignment = NSTextAlignmentCenter;
+        lblMinimumOrderValue.backgroundColor = [UIColor clearColor];
+        lblMinimumOrderValue.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-6];
+        lblMinimumOrderValue.textColor = [UIColor whiteColor];
+        [bgView addSubview:lblMinimumOrderValue];
         
         UIImageView *img_Stars_Left = [[UIImageView alloc]init];
         img_Stars_Left.tag = 27;
@@ -986,17 +995,51 @@
     UILabel *lblAmount = (UILabel *)[cell viewWithTag:25];
     UILabel *lblName = (UILabel *)[cell viewWithTag:26];
     UILabel *lblExpires = (UILabel *)[cell viewWithTag:29];
+    UILabel *lblMinimumOrderValue = (UILabel *)[cell viewWithTag:30];
+    UIView *bgMinOrdVal = (UIView *)[cell viewWithTag:31];
     
     UIImageView *img_Stars_Left = (UIImageView *) [cell viewWithTag:27];
     UIImageView *img_Stars_Right = (UIImageView *) [cell viewWithTag:28];
     
     lblUnlock.text = @"UNLOCKED 1 FREE WASH";
     
-    lblAmount.text = [NSString stringWithFormat:@"WORTH $%.2f", [[dictFreeWashes objectForKey:@"amount"]floatValue]];
+    lblAmount.text = [NSString stringWithFormat:@"WORTH $%.2f", [[dictFreeWashes objectForKey:@"amount"] floatValue]];
     
-    lblName.text = [NSString stringWithFormat:@"THANKS TO %@", [[dictFreeWashes objectForKey:@"referBy"]uppercaseString]];
+    lblName.text = [NSString stringWithFormat:@"THANKS TO %@", [[dictFreeWashes objectForKey:@"referBy"] uppercaseString]];
     
-    lblExpires.text = [NSString stringWithFormat:@"EXPIRES IN %d DAYS", [[dictFreeWashes objectForKey:@"referExpierDays"]intValue]];
+    
+    NSString *str1 = [NSString stringWithFormat:@"%d", [[dictFreeWashes objectForKey:@"referExpierDays"] intValue]];
+    NSString *str2 = @"Days";
+    NSString *str3 = @"\nTo Expire";
+    
+    NSString *strTotal = [NSString stringWithFormat:@"%@%@%@", str1, str2, str3];
+    
+    NSRange range1 = [strTotal rangeOfString:str1];
+    NSRange range2 = [strTotal rangeOfString:str2];
+    NSRange range3 = [strTotal rangeOfString:str3];
+    
+    NSMutableAttributedString *attrExpi = [[NSMutableAttributedString alloc]initWithString:strTotal];
+    
+//    NSMutableParagraphStyle *paragrapStyle = [[NSMutableParagraphStyle alloc] init];
+//    paragrapStyle.alignment = NSTextAlignmentCenter;
+//    [paragrapStyle setLineSpacing:10];
+//    [paragrapStyle setMaximumLineHeight:100.0f];
+//
+//    [attrExpi addAttribute:NSParagraphStyleAttributeName value:paragrapStyle range:NSMakeRange(0, attrExpi.length)];
+    
+    [attrExpi addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BlackItalic size:appDel.FONT_SIZE_CUSTOM+7]} range:range1];
+    [attrExpi addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BlackItalic size:appDel.FONT_SIZE_CUSTOM-4]} range:range2];
+    [attrExpi addAttributes:@{NSFontAttributeName:[UIFont fontWithName:APPFONT_BlackItalic size:appDel.FONT_SIZE_CUSTOM-4]} range:range3];
+    
+    //lblExpires.text = [NSString stringWithFormat:@"EXPIRES IN %d DAYS", [[dictFreeWashes objectForKey:@"referExpierDays"] intValue]];
+    lblExpires.attributedText = attrExpi;
+    
+    CGSize sizeExp = [AppDelegate getAttributedTextHeightForText:attrExpi WithWidth:200];
+    
+    lblExpires.frame = CGRectMake(bgView.frame.size.width-sizeExp.width*1.4, bgView.frame.size.height-sizeExp.height*1.5, sizeExp.width, sizeExp.height);
+    
+    
+    lblMinimumOrderValue.text = [dictFreeWashes objectForKey:@"minOrderVal"];
     
     float yAxis = 15*MULTIPLYHEIGHT;
     
@@ -1035,9 +1078,19 @@
     
     lblName.frame = CGRectMake(0, yAxis, bgView.frame.size.width, lblNHeight);
     
-    yAxis += lblName.frame.size.height-3*MULTIPLYHEIGHT;
+    yAxis += lblName.frame.size.height+2*MULTIPLYHEIGHT;
     
-    lblExpires.frame = CGRectMake(0, yAxis, bgView.frame.size.width, lblNHeight);
+    lblMinimumOrderValue.frame = CGRectMake(0, yAxis, bgView.frame.size.width, lblNHeight);
+    
+    //CGSize sizeMinVal = [AppDelegate getLabelSizeForRegularText:lblMinimumOrderValue.text WithWidth:bgView.frame.size.width FontSize:lblMinimumOrderValue.font.pointSize];
+    
+    //lblMinimumOrderValue.frame = CGRectMake(bgView.frame.size.width/2-sizeMinVal.width/2, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+    
+    CGFloat bgX = 60*MULTIPLYHEIGHT;
+    
+    bgMinOrdVal.frame = CGRectMake(bgX, yAxis, bgView.frame.size.width - bgX*2, lblNHeight+2);
+    bgMinOrdVal.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    bgMinOrdVal.layer.cornerRadius = bgMinOrdVal.frame.size.height/2;
     
     return cell;
 }
@@ -1182,7 +1235,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    float tableHeight = 101*MULTIPLYHEIGHT;
+    float tableHeight = TABLEVIEW_HEIGHT;
     return tableHeight;
 }
 

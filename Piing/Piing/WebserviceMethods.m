@@ -71,7 +71,7 @@
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
-                if (!error) {
+                if (!error && data) {
                     
                     id responseObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
                     
@@ -91,7 +91,7 @@
             }];
             
         }] resume];
-
+        
         
         
 //        [[session dataTaskWithRequest:req completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {

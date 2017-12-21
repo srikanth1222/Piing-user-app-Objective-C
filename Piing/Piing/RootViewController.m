@@ -142,7 +142,7 @@
     
     
     UIButton *btnKnowMore = [UIButton buttonWithType:UIButtonTypeCustom];
-    [view_Login addSubview:btnKnowMore];
+    //[view_Login addSubview:btnKnowMore];
     
     btnKnowMore.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
     

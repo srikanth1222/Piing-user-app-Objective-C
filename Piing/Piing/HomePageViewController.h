@@ -15,5 +15,6 @@
 @property (nonatomic, retain) NSArray *userSavedCards;
 
 - (void) loadAPIForBookNowStatus;
+-(void) searchingForNearestPiingo;
 
 @end

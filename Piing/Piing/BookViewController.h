@@ -43,6 +43,8 @@
 @property (nonatomic, retain) NSMutableDictionary *dictAllowUpdates;
 
 @property (nonatomic, strong) NSString *bookNowETAStr;
+@property (nonatomic, assign) BOOL isCurrentTimeSlot;
+
 @property (nonatomic, assign) BOOL isFromBookNow;
 @property (nonatomic, assign) BOOL isFromOrdersList;
 @property (nonatomic, strong) NSString *bookNowPT;

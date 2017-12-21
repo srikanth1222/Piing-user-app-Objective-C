@@ -1487,10 +1487,9 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
                             
                             bookVC.piingoName = [[dict objectForKey:@"name"] uppercaseString];
                             bookVC.piingoId = [[dict objectForKey:@"pid"] stringValue];
+                            bookVC.isCurrentTimeSlot = [[dict objectForKey:@"tracking"] boolValue];
                             
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                
-                                [self hideTabBar:self.customTabBarController];
                                 
                                 UINavigationController *objNavHome = [self.customTabBarController.viewControllers objectAtIndex:0];
                                 HomePageViewController *objHome = [objNavHome.viewControllers objectAtIndex:0];
@@ -1502,6 +1501,8 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
                                 [UIView animateWithDuration:0.3 animations:^{
                                     
                                     bookVC.view.frame = objHome.view.bounds;
+                                    
+                                    //[self hideTabBar:self.customTabBarController];
                                     
                                 } completion:^(BOOL finished) {
                                     

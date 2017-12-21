@@ -1365,23 +1365,20 @@
             
             if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1) {
                 
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [appdel showAlertWithMessage:@"Your Piing pin has been updated successfully." andTitle:@"" andBtnTitle:@"OK"];
+                
+                [piingPinTitleLbl setTitle:[NSString stringWithFormat:@"PIING PIN # %@  ", PinpaswordTF.text] forState:UIControlStateNormal];
+                
+                [UIView animateKeyframesWithDuration:0.3 delay:0.0 options:UIViewKeyframeAnimationOptionAllowUserInteraction animations:^{
                     
-                    [appdel showAlertWithMessage:@"Your Piing pin has been updated successfully." andTitle:@"" andBtnTitle:@"OK"];
+                    view_Pin_Popup.alpha = 0.0;
                     
-                    [piingPinTitleLbl setTitle:[NSString stringWithFormat:@"PIING PIN # %@  ", PinpaswordTF.text] forState:UIControlStateNormal];
+                } completion:^(BOOL finished) {
                     
-                    [UIView animateKeyframesWithDuration:0.3 delay:0.0 options:UIViewKeyframeAnimationOptionAllowUserInteraction animations:^{
-                        
-                        view_Pin_Popup.alpha = 0.0;
-                        
-                    } completion:^(BOOL finished) {
-                        
-                        [view_Pin_Popup removeFromSuperview];
-                        view_Pin_Popup = nil;
-                    }];
-                    
+                    [view_Pin_Popup removeFromSuperview];
+                    view_Pin_Popup = nil;
                 }];
+                
             }
             
             else

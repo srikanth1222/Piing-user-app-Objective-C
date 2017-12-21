@@ -196,6 +196,7 @@
 		E6607BEC1CCF20D90096BFA6 /* piing_logo_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6607BEB1CCF20D90096BFA6 /* piing_logo_icon@2x.png */; };
 		E6607BEE1CD077020096BFA6 /* extension_number@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6607BED1CD077020096BFA6 /* extension_number@2x.png */; };
 		E6607BF21CD0E5410096BFA6 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = E6607BF11CD0E5410096BFA6 /* UIView+Toast.m */; };
+		E66310421FEA7AE500D5D390 /* mywallet_strip2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E66310411FEA7AE500D5D390 /* mywallet_strip2@2x.png */; };
 		E66C309B1CD8FF780097EAC2 /* home_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E66C30991CD8FF780097EAC2 /* home_map@2x.png */; };
 		E66C309C1CD8FF780097EAC2 /* piingo_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E66C309A1CD8FF780097EAC2 /* piingo_map@2x.png */; };
 		E66F4C7B1EEE6A0F0018BFDD /* CalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F4C7A1EEE6A0F0018BFDD /* CalculateViewController.m */; };
@@ -690,6 +691,7 @@
 		E6607BED1CD077020096BFA6 /* extension_number@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "extension_number@2x.png"; sourceTree = "<group>"; };
 		E6607BF01CD0E5410096BFA6 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		E6607BF11CD0E5410096BFA6 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
+		E66310411FEA7AE500D5D390 /* mywallet_strip2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mywallet_strip2@2x.png"; sourceTree = "<group>"; };
 		E66C30991CD8FF780097EAC2 /* home_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_map@2x.png"; sourceTree = "<group>"; };
 		E66C309A1CD8FF780097EAC2 /* piingo_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piingo_map@2x.png"; sourceTree = "<group>"; };
 		E66F4C791EEE6A0F0018BFDD /* CalculateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculateViewController.h; sourceTree = "<group>"; };
@@ -1690,6 +1692,7 @@
 				E6DD34751D6312D600A80682 /* free_wash_bg_down.mp4 */,
 				E6EFC4ED1D549A1C002BD03A /* free_wash_bg.mp4 */,
 				E6DCE2FE1CB6192900C37C1B /* mywallet_strip@2x.png */,
+				E66310411FEA7AE500D5D390 /* mywallet_strip2@2x.png */,
 				E6DCE2FF1CB6192900C37C1B /* stars_mywallet@2x.png */,
 			);
 			name = "My Wallet";
@@ -2313,6 +2316,7 @@
 				E69CCC681CC8E4BD00BF1113 /* cancel_red@2x.png in Resources */,
 				F3F217491C1875CF00FDF3D4 /* call@2x.png in Resources */,
 				E6C38CEA1D677B1C00D1D40C /* splash_video.mp4 in Resources */,
+				E66310421FEA7AE500D5D390 /* mywallet_strip2@2x.png in Resources */,
 				E65BDC511E9226C20005189D /* apple_arrow_up@2x.png in Resources */,
 				F3F2174A1C1875CF00FDF3D4 /* freewash@2x.png in Resources */,
 				F301F91F1C670CF10021F490 /* tab_mybooking_blue@2x.png in Resources */,
@@ -2800,8 +2804,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.piing.userpiing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "55e2306b-1253-4951-b8a2-da7e0c72412d";
-				PROVISIONING_PROFILE_SPECIFIER = User_Piing_Distribution_Profile;
+				PROVISIONING_PROFILE = "c4670fab-8268-446f-847e-f970cfbd904b";
+				PROVISIONING_PROFILE_SPECIFIER = "User Piing App Store Profile";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2838,8 +2842,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.piing.userpiing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "55e2306b-1253-4951-b8a2-da7e0c72412d";
-				PROVISIONING_PROFILE_SPECIFIER = User_Piing_Distribution_Profile;
+				PROVISIONING_PROFILE = "c4670fab-8268-446f-847e-f970cfbd904b";
+				PROVISIONING_PROFILE_SPECIFIER = "User Piing App Store Profile";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

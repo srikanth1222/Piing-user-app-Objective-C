@@ -584,8 +584,15 @@
     float minusHeight = 25*MULTIPLYHEIGHT;
     
     float height = MIN(customHeight, ((screen_height-yAxis) - (minusHeight*2)));
-    tblTimes.frame = CGRectMake(0.0, minusHeight, tblTimes.frame.size.width, height);
-    tblTimes.center = CGPointMake(tblDates.frame.size.width+tblTimes.frame.size.width/2, (screen_height+yAxis)/2);
+    
+    [UIView animateWithDuration:0.2 animations:^{
+    
+        tblTimes.frame = CGRectMake(0.0, minusHeight, tblTimes.frame.size.width, height);
+        tblTimes.center = CGPointMake(tblDates.frame.size.width+tblTimes.frame.size.width/2, (screen_height+yAxis)/2);
+        
+    } completion:^(BOOL finished) {
+        
+    }];
     
     [tblTimes reloadData];
 }

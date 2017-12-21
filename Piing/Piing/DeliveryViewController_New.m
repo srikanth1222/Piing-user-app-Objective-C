@@ -771,7 +771,10 @@
         
         [self.orderInfo setObject:@"R" forKey:ORDER_FROM];
         
-        [self.orderInfo setObject:[selectedAddress objectForKey:@"_id"] forKey:ORDER_DELIVERY_ADDRESS_ID];
+        if ([selectedAddress objectForKey:@"_id"])
+        {
+            [self.orderInfo setObject:[selectedAddress objectForKey:@"_id"] forKey:ORDER_DELIVERY_ADDRESS_ID];
+        }
         
         if([self.orderInfo objectForKey:ORDER_DELIVERY_DATE] && [self.orderInfo objectForKey:ORDER_DELIVERY_SLOT]){
             
@@ -846,7 +849,10 @@
     {
         [FIRAnalytics logEventWithName:@"book_update_order_button" parameters:nil];
         
-        [self.orderInfo setObject:[selectedAddress objectForKey:@"_id"] forKey:ORDER_DELIVERY_ADDRESS_ID];
+        if ([selectedAddress objectForKey:@"_id"])
+        {
+            [self.orderInfo setObject:[selectedAddress objectForKey:@"_id"] forKey:ORDER_DELIVERY_ADDRESS_ID];
+        }
         
         if([self.orderInfo objectForKey:ORDER_DELIVERY_DATE] && [self.orderInfo objectForKey:ORDER_DELIVERY_SLOT]){
             
