@@ -11,6 +11,7 @@
 #import "OrdersTableViewCell.h"
 #import "BookViewController.h"
 #import "FAQViewController.h"
+#import <StoreKit/SKStoreReviewController.h>
 
 
 @interface MyBookingViewController () <UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate, MyBookingViewControllerDelegate>
@@ -373,6 +374,16 @@
                     //appDel.openBillAuto = NO;
                     
                     [self gotoOrderDetails:0];
+                }
+                else
+                {
+//                    if ([self.arrayOrders count] >= 1)
+//                    {
+//                        if (@available(iOS 10.3, *))
+//                        {
+//                            [SKStoreReviewController requestReview];
+//                        }
+//                    }
                 }
                 
                 bgImageView.image = [UIImage imageNamed:@"mywashes_singapore"];

@@ -17,7 +17,6 @@
 
 
 
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     CLLocationManager *locationManager;

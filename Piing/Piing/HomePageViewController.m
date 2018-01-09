@@ -86,7 +86,7 @@
     
     FXBlurView *blurEffect;
     
-    UIView *view_BagShoes, *viewUnderBagShoe;
+    UIView *view_BagShoes, *viewUnderBagShoe;    
 }
 
 @property (nonatomic, strong) GMSMapView *mapView;
@@ -369,7 +369,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+        
     isFirstTimeScheduleLaterClicked = YES;
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -1448,6 +1448,9 @@
                 [intervalTime invalidate];
                 intervalTime = nil;
             }
+            
+            [timerView setDetails:2];
+            [timerView stopRotate2];
             
             dictOrderDetails = [responseObj objectForKey:@"em"];
             

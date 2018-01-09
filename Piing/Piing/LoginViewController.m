@@ -507,6 +507,7 @@
         passwordString = textField.text;
     }
 }
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self dismissKeyboard];

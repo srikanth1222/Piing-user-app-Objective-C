@@ -2067,10 +2067,10 @@
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = PMQK439UXC;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -2782,7 +2782,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Piing/Piing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PMQK439UXC;
 				ENABLE_BITCODE = NO;
@@ -2804,8 +2805,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.piing.userpiing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c4670fab-8268-446f-847e-f970cfbd904b";
-				PROVISIONING_PROFILE_SPECIFIER = "User Piing App Store Profile";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2820,7 +2821,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Piing/Piing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Piing Pte Ltd (PMQK439UXC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PMQK439UXC;
 				ENABLE_BITCODE = NO;
@@ -2842,8 +2844,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.piing.userpiing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c4670fab-8268-446f-847e-f970cfbd904b";
-				PROVISIONING_PROFILE_SPECIFIER = "User Piing App Store Profile";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

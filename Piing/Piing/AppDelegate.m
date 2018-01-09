@@ -54,6 +54,8 @@
     
     UIView *viewAd;
     UIView *view_Middle;
+    
+    UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 }
 
 @property (nonatomic, strong) NSDictionary *loginDetailsGlobal;
@@ -143,6 +145,13 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
     [FIRApp configure];
     
     //assert(false);
+    
+    backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskIdentifier];
+        backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+    }];
+    
     
     PiingHandler *handler = [PiingHandler sharedHandler];
     handler.appDel = self;

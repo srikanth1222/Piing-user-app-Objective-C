@@ -147,10 +147,10 @@ BOOL animating;
 
 -(void) btnPressed
 {
-    if (animating)
-    {
-        [self stopRotate2];
-    }
+//    if (animating)
+//    {
+//        [self stopRotate2];
+//    }
     
     if ([timerImageView isHidden])
     {

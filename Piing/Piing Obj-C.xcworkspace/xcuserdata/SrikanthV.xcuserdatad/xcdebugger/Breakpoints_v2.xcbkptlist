@@ -9,77 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Piing/BookViewController.m"
-            timestampString = "535455031.013002"
+            filePath = "Piing/PriceListViewController_New.m"
+            timestampString = "536843330.905086"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
-            landmarkName = "-connectToSocket"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__37-[BookViewController connectToSocket]_block_invoke_3"
-                  moduleName = "Piing Obj-C"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/SrikanthV/Desktop/GituHub%20Piing%20Apps/Piing-user-app-Objective-C/Piing/Piing/BookViewController.m"
-                  timestampString = "535459834.108861"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "344"
-                  endingLineNumber = "344"
-                  offsetFromSymbolStart = "635">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__37-[BookViewController connectToSocket]_block_invoke.290"
-                  moduleName = "Piing Obj-C"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/SrikanthV/Desktop/GituHub%20Piing%20Apps/Piing-user-app-Objective-C/Piing/Piing/BookViewController.m"
-                  timestampString = "535459834.114653"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "344"
-                  endingLineNumber = "344"
-                  offsetFromSymbolStart = "15">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Piing/MyWalletViewController.m"
-            timestampString = "535480862.381769"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1226"
-            endingLineNumber = "1226"
-            landmarkName = "-cancelClicked"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Piing/MyWalletViewController.m"
-            timestampString = "535480862.382287"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "996"
-            endingLineNumber = "996"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "1847"
+            endingLineNumber = "1847"
+            landmarkName = "-shoeAndBagCleaningData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
