@@ -161,6 +161,8 @@
 		E61DE9251EF52C0A0085797F /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = E61DE9241EF52C0A0085797F /* UIImage+animatedGIF.m */; };
 		E61DE9291EF535E10085797F /* OrdersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E61DE9281EF535E10085797F /* OrdersTableViewCell.m */; };
 		E620F6331DAA6C6000BD4EEF /* PriceEstimatorViewController_New.m in Sources */ = {isa = PBXBuildFile; fileRef = E620F6321DAA6C6000BD4EEF /* PriceEstimatorViewController_New.m */; };
+		E624155020204FE8002568C3 /* surgeprice_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E624154E20204FE6002568C3 /* surgeprice_bg.png */; };
+		E624155120204FE8002568C3 /* discount_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E624154F20204FE7002568C3 /* discount_bg.png */; };
 		E62459071D423C0C00BABB19 /* delivery_failed.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E62459041D423C0C00BABB19 /* delivery_failed.mp4 */; };
 		E62459081D423C0C00BABB19 /* pick_failed.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E62459051D423C0C00BABB19 /* pick_failed.mp4 */; };
 		E62459091D423C0C00BABB19 /* ready_for_delivery.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E62459061D423C0C00BABB19 /* ready_for_delivery.mp4 */; };
@@ -649,6 +651,8 @@
 		E61DE9281EF535E10085797F /* OrdersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersTableViewCell.m; sourceTree = "<group>"; };
 		E620F6311DAA6C6000BD4EEF /* PriceEstimatorViewController_New.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceEstimatorViewController_New.h; sourceTree = "<group>"; };
 		E620F6321DAA6C6000BD4EEF /* PriceEstimatorViewController_New.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceEstimatorViewController_New.m; sourceTree = "<group>"; };
+		E624154E20204FE6002568C3 /* surgeprice_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = surgeprice_bg.png; sourceTree = "<group>"; };
+		E624154F20204FE7002568C3 /* discount_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = discount_bg.png; sourceTree = "<group>"; };
 		E62459041D423C0C00BABB19 /* delivery_failed.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = delivery_failed.mp4; sourceTree = "<group>"; };
 		E62459051D423C0C00BABB19 /* pick_failed.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pick_failed.mp4; sourceTree = "<group>"; };
 		E62459061D423C0C00BABB19 /* ready_for_delivery.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ready_for_delivery.mp4; sourceTree = "<group>"; };
@@ -1945,6 +1949,8 @@
 				F3BC72241C14995A000FC122 /* promocode_bg@2x.png */,
 				E6112BDC1D9E7AF20007DBD7 /* preference_bg@2x.png */,
 				E6112BDD1D9E7AF20007DBD7 /* preference_icon@2x.png */,
+				E624154F20204FE7002568C3 /* discount_bg.png */,
+				E624154E20204FE6002568C3 /* surgeprice_bg.png */,
 			);
 			name = "Schedule later";
 			sourceTree = "<group>";
@@ -2345,6 +2351,7 @@
 				129424661BC12D21007F241B /* ForgetPasswordViewController.xib in Resources */,
 				F367995E1C82CE6600E74744 /* load_wash@2x.png in Resources */,
 				E6C38CE51D67699300D1D40C /* back_grey1@2x.png in Resources */,
+				E624155020204FE8002568C3 /* surgeprice_bg.png in Resources */,
 				E6F48F4E1E90D396009264CF /* dcg_selected@2x.png in Resources */,
 				F3F2174D1C1875CF00FDF3D4 /* price@2x.png in Resources */,
 				F301F9221C6742530021F490 /* profileUser@2x.png in Resources */,
@@ -2373,6 +2380,7 @@
 				E658ED451CDC88FE0035407C /* price_estimator@2x.png in Resources */,
 				F3DC8FC81C72469A00B3678D /* address_pointer_seected@2x.png in Resources */,
 				E60E6F671F179D3100D1E838 /* mywashes@2x.png in Resources */,
+				E624155120204FE8002568C3 /* discount_bg.png in Resources */,
 				E60903641D61AAED0042231C /* more_bg.mp4 in Resources */,
 				E6E27F411E2664900075849C /* leather@2x.png in Resources */,
 				123F91CB1BB7D8A000874E27 /* MyProfileDetailsViewController.xib in Resources */,

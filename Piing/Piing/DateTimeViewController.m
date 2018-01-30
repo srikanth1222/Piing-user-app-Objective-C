@@ -360,17 +360,14 @@
             lblTitle.tag = 1;
             [cell.contentView addSubview:lblTitle];
             
-            UIImageView *imgLine = [[UIImageView alloc]init];
-            imgLine.tag = 2;
-            [cell.contentView addSubview:imgLine];
-            
-            UILabel *lblPer = [[UILabel alloc]init];
-            lblPer.numberOfLines = 0;
-            lblPer.tag = 3;
-            [cell.contentView addSubview:lblPer];
+            UIButton *btnOffer = [UIButton buttonWithType:UIButtonTypeCustom];
+            btnOffer.tag = 2;
+            btnOffer.userInteractionEnabled = NO;
+            btnOffer.titleLabel.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM+3];
+            [cell.contentView addSubview:btnOffer];
             
             UIImageView *imgSelected = [[UIImageView alloc]init];
-            imgSelected.tag = 4;
+            imgSelected.tag = 3;
             imgSelected.contentMode = UIViewContentModeScaleAspectFit;
             [cell.contentView addSubview:imgSelected];
         }
@@ -384,96 +381,101 @@
         UILabel *lblTitle = (UILabel *) [cell.contentView viewWithTag:1];
         //lblTitle.backgroundColor = [UIColor redColor];
         
-        UIImageView *imgLine = (UIImageView *) [cell.contentView viewWithTag:2];
-        UILabel *lblPer = (UILabel *) [cell.contentView viewWithTag:3];
+        UIButton *btnOffer = (UIButton *) [cell.contentView viewWithTag:2];
         
-        UIImageView *imgSelected = (UIImageView *) [cell.contentView viewWithTag:4];
+        UIImageView *imgSelected = (UIImageView *) [cell.contentView viewWithTag:3];
         imgSelected.highlightedImage = [UIImage imageNamed:@"slected_timeslot"];
         
-        CGFloat lblX = 30*MULTIPLYHEIGHT;
+        CGFloat lblX = 20*MULTIPLYHEIGHT;
         CGFloat xAxis;
         
         lblTitle.textColor = [UIColor lightGrayColor];
         lblTitle.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM];
         
+        NSDictionary *dict = [self.arrayTimes objectAtIndex:indexPath.section];
+        
         if (self.isFromRecurring)
         {
-            NSDictionary *dict = [self.arrayTimes objectAtIndex:indexPath.section];
+            NSString *slot = [dict objectForKey:@"slot"];
             
-            lblTitle.text = [dict objectForKey:@"slot"];
+            slot = [[slot stringByReplacingOccurrencesOfString:@" PM" withString:@""] stringByAppendingString:@" PM"];
+            slot = [slot stringByReplacingOccurrencesOfString:@"-" withString:@" - "];
             
-            NSString *str1 = [dict objectForKey:@"slot"];
-            CGSize titleSize = [AppDelegate getLabelSizeForMediumText:str1 WithWidth:tblDates.frame.size.width FontSize:lblTitle.font.pointSize];
+            lblTitle.text = slot;
+            
+            CGSize titleSize = [AppDelegate getLabelSizeForMediumText:slot WithWidth:tblDates.frame.size.width FontSize:lblTitle.font.pointSize];
             
             lblTitle.frame = CGRectMake(lblX, 0, titleSize.width, TABLE_TIME_HEIGHT);
             
-            xAxis = lblX+titleSize.width+5*MULTIPLYHEIGHT;
-            
-            lblPer.textColor = LIGHT_BLUE_COLOR;
-            lblPer.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-2];
-            lblPer.textAlignment = NSTextAlignmentCenter;
-            
-            CGFloat imgHeight = 15*MULTIPLYHEIGHT;
-            CGFloat imgY = TABLE_TIME_HEIGHT/2-imgHeight/2;
-            CGFloat imgX = xAxis;
-            
-            imgLine.frame = CGRectMake(imgX, imgY, 1, imgHeight);
-            
-            xAxis += 3*MULTIPLYHEIGHT;
-            
-            lblPer.frame = CGRectMake(xAxis, 0, 20*MULTIPLYHEIGHT, TABLE_TIME_HEIGHT);
-            
-            if ([[dict objectForKey:@"dis"] length] > 1)
-            {
-                xAxis += 20*MULTIPLYHEIGHT+1*MULTIPLYHEIGHT;
-                
-                lblPer.text = [NSString stringWithFormat:@"%@ off", [dict objectForKey:@"dis"]];
-                imgLine.backgroundColor = RGBCOLORCODE(210, 210, 210, 1);
-            }
-            else
-            {
-                lblPer.text = @"";
-                imgLine.backgroundColor = [UIColor clearColor];
-            }
+            xAxis = lblX+titleSize.width+3*MULTIPLYHEIGHT;
         }
         else
         {
-            NSDictionary *dict = [self.arrayTimes objectAtIndex:indexPath.section];
+            NSString *slot = [dict objectForKey:@"slot"];
             
-            lblTitle.text = [dict objectForKey:@"slot"];
+            slot = [[slot stringByReplacingOccurrencesOfString:@" PM" withString:@""] stringByAppendingString:@" PM"];
+            slot = [slot stringByReplacingOccurrencesOfString:@"-" withString:@" - "];
             
-            NSString *str1 = [dict objectForKey:@"slot"];
-            CGSize titleSize = [AppDelegate getLabelSizeForSemiBoldText:str1 WithWidth:tblDates.frame.size.width FontSize:lblTitle.font.pointSize];
+            lblTitle.text = slot;
+            
+            CGSize titleSize = [AppDelegate getLabelSizeForSemiBoldText:slot WithWidth:tblDates.frame.size.width FontSize:lblTitle.font.pointSize];
             
             lblTitle.frame = CGRectMake(lblX, 0, titleSize.width, TABLE_TIME_HEIGHT);
             
-            xAxis = lblX+titleSize.width+6*MULTIPLYHEIGHT;
-            
-            lblPer.textColor = LIGHT_BLUE_COLOR;
-            lblPer.font = [UIFont fontWithName:APPFONT_REGULAR size:appDel.FONT_SIZE_CUSTOM-2];
-            lblPer.textAlignment = NSTextAlignmentCenter;
-            
-            CGFloat imgHeight = 15*MULTIPLYHEIGHT;
-            CGFloat imgY = TABLE_TIME_HEIGHT/2-imgHeight/2;
-            CGFloat imgX = xAxis;
-            
-            imgLine.frame = CGRectMake(imgX, imgY, 1, imgHeight);
-            
-            xAxis += 3*MULTIPLYHEIGHT;
-            
-            lblPer.frame = CGRectMake(xAxis, 0, 20*MULTIPLYHEIGHT, TABLE_TIME_HEIGHT);
+            xAxis = lblX+titleSize.width+3*MULTIPLYHEIGHT;
             
             if ([[dict objectForKey:@"dis"] length] > 1)
             {
-                xAxis += 20*MULTIPLYHEIGHT+1*MULTIPLYHEIGHT;
+                btnOffer.hidden = NO;
                 
-                lblPer.text = [NSString stringWithFormat:@"%@ off", [dict objectForKey:@"dis"]];
-                imgLine.backgroundColor = RGBCOLORCODE(210, 210, 210, 1);
+                UIImage *img = [UIImage imageNamed:@"discount_bg"];
+                //CGSize sizeOfImg = img.size;
+                
+                [btnOffer setBackgroundImage:img forState:UIControlStateNormal];
+                
+                NSString *strDis = [NSString stringWithFormat:@"%@", [dict objectForKey:@"dis"]];
+                
+                [btnOffer setTitle:strDis forState:UIControlStateNormal];
+                
+                CGFloat width = 55*MULTIPLYHEIGHT;
+                CGFloat height = 25*MULTIPLYHEIGHT;
+                
+                btnOffer.frame = CGRectMake(xAxis, TABLE_TIME_HEIGHT/2 - height/2, width, height);
+                
+                btnOffer.titleLabel.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM+2];
+                
+                [btnOffer setTitleColor:RGBCOLORCODE(71, 185, 120, 1.0) forState:UIControlStateNormal];
+                btnOffer.titleEdgeInsets = UIEdgeInsetsMake(0, 20*MULTIPLYHEIGHT, 0, 0);
+                xAxis += btnOffer.frame.size.width;
+            }
+            else if ([[dict objectForKey:@"surge"] length] > 1)
+            {
+                btnOffer.hidden = NO;
+                
+                UIImage *img = [UIImage imageNamed:@"surgeprice_bg"];
+                //CGSize sizeOfImg = img.size;
+                
+                [btnOffer setBackgroundImage:img forState:UIControlStateNormal];
+                
+                NSString *strSurge = [NSString stringWithFormat:@"+ %@", [dict objectForKey:@"surge"]];
+                
+                [btnOffer setTitle:strSurge forState:UIControlStateNormal];
+                
+                CGFloat width = 55*MULTIPLYHEIGHT;
+                CGFloat height = 25*MULTIPLYHEIGHT;
+                
+                btnOffer.frame = CGRectMake(xAxis, TABLE_TIME_HEIGHT/2 - height/2, width, height);
+                
+                btnOffer.titleLabel.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM];
+                
+                [btnOffer setTitleColor:[[UIColor redColor] colorWithAlphaComponent:0.7] forState:UIControlStateNormal];
+                btnOffer.titleEdgeInsets = UIEdgeInsetsMake(0, 13*MULTIPLYHEIGHT, 0, 0);
+                xAxis += btnOffer.frame.size.width;
             }
             else
             {
-                lblPer.text = @"";
-                imgLine.backgroundColor = [UIColor clearColor];
+                btnOffer.hidden = YES;
+                xAxis += 6*MULTIPLYHEIGHT;
             }
         }
         
@@ -481,7 +483,7 @@
         {
             imgSelected.highlighted = YES;
             
-            self.strSelectedTimeSlot = lblTitle.text;
+            self.strSelectedTimeSlot = [dict objectForKey:@"slot"];
         }
         else
         {
