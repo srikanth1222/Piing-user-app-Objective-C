@@ -194,9 +194,9 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
    
     
     //Required in all app
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN])
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN])
     {
-        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:USER_TOEKN];
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:USER_TOKEN];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
@@ -450,7 +450,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:DEVICETOKEN] length] > 0 && [[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] length] > 0)
     {
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"IOS", @"deviceType", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:DEVICETOKEN], @"deviceToken", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"IOS", @"deviceType", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:DEVICETOKEN], @"deviceToken", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@user/registerdevice", BASE_URL];
         
@@ -473,7 +473,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_ID])
     {
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", self.latitude, @"lat", self.longitude, @"lon", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", self.latitude, @"lat", self.longitude, @"lon", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@user/location/save", BASE_URL];
         
@@ -827,7 +827,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:self withObject:nil];
     
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/logout", BASE_URL];
     
@@ -851,7 +851,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USERNAME];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:PASSWORD];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_TOEKN];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_TOKEN];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:IS_TOURIST];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:PREFERENCES_SELECTED];
     
@@ -901,7 +901,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
 {
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -951,7 +951,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
 {
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/getallpaymentmethods", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -1007,7 +1007,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
 
 -(void) getUserDetails
 {
-    NSDictionary *verificationDetailsDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *verificationDetailsDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/get", BASE_URL];
     
@@ -1132,7 +1132,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
                 if([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
                 {
                     [[NSUserDefaults standardUserDefaults] setObject:[responseObj objectForKey:@"uid"] forKey:USER_ID];
-                    [[NSUserDefaults standardUserDefaults] setObject:[responseObj objectForKey:@"t"] forKey:USER_TOEKN];
+                    [[NSUserDefaults standardUserDefaults] setObject:[responseObj objectForKey:@"t"] forKey:USER_TOKEN];
                     
                     self.strPhoneNumber = [responseObj objectForKey:@"phone"];
                     
@@ -1438,7 +1438,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:self withObject:nil];
     
-    NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:self.cobIdForCurrentBooking, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:self.cobIdForCurrentBooking, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/get/byid", BASE_URL];
     
@@ -1480,7 +1480,7 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
                 
                 if ([[dictMain objectForKey:@"ppid"] intValue] > 0)
                 {
-                    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [dictMain objectForKey:@"ppid"], @"pid", nil];
+                    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [dictMain objectForKey:@"ppid"], @"pid", nil];
                     
                     NSString *urlStr = [NSString stringWithFormat:@"%@piingo/get", BASE_URL];
                     

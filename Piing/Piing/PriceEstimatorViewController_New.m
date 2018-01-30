@@ -614,7 +614,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *registrationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:strOrderType, @"orderType", strJobType, @"serviceType", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *registrationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:strOrderType, @"orderType", strJobType, @"serviceType", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@pricing/get", BASE_URL];
     
@@ -1077,7 +1077,7 @@
 
 -(void)GetDaysToDeliver
 {
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", @"B", @"orderType", strJobType, @"serviceTypes", strOrderType, @"orderSpeed", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", @"B", @"orderType", strJobType, @"serviceTypes", strOrderType, @"orderSpeed", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/estimatedays", BASE_URL];
     

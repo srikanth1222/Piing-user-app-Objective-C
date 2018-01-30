@@ -237,7 +237,7 @@
 {
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appdel withObject:nil];
     
-    NSDictionary *verificationDetailsDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *verificationDetailsDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/get", BASE_URL];
     
@@ -514,7 +514,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appdel withObject:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", @"MT", @"order", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", @"MT", @"order", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@getorderstatusimages/services.do?", BASE_URL];
     NSString *str = @"";
@@ -703,13 +703,17 @@
         NSString *phNo = [NSString stringWithFormat:@"+65%@", [dictUserDetails objectForKey:@"csn"]];
         NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
         
-        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl])
+        {
             [[UIApplication sharedApplication] openURL:phoneUrl];
-        } else
+        }
+        else
         {
             UIAlertView *calert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
             [calert show];
         }
+        
+        [self btnCloseClicked];
     }
     else
     {
@@ -729,6 +733,8 @@
         {
             [appdel showAlertWithMessage:@"Your device could not send e-mail. Please check e-mail configuration and try again." andTitle:@"" andBtnTitle:@"OK"];
         }
+        
+        [self btnCloseClicked];
     }
 }
 
@@ -1132,7 +1138,7 @@
         }
         else{
             
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",strForgot,@"password",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",strForgot,@"password",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@user/authprofileupdate", BASE_URL];
             
@@ -1353,7 +1359,7 @@
     }
     else
     {
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",PinpaswordTF.text,@"transactionPin",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",PinpaswordTF.text,@"transactionPin",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@user/transactionpin", BASE_URL];
         

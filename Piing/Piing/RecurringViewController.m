@@ -127,7 +127,7 @@
     
     [self.recurringInfo setValue:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
     [self.recurringInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:ORDER_USER_ID];
-    [self.recurringInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
+    [self.recurringInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN] forKey:@"t"];
     [self.recurringInfo setObject:@"From IOS" forKey:ORDER_NOTES];
     
     
@@ -1240,7 +1240,7 @@
 
 -(void) fetchFrequencyData
 {
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/recurring/frequency/getall", BASE_URL];
     
@@ -1297,7 +1297,7 @@
 
 - (void)fetchPickUpDates:(BOOL) btnClicked {
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [selectedAddress objectForKey:@"_id"], @"pickupAddressId", arraySelectedServiceTypes, @"serviceTypes", @"R", @"orderType", [self.recurringInfo objectForKey:ORDER_FREQUENCY], @"frequency", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [selectedAddress objectForKey:@"_id"], @"pickupAddressId", arraySelectedServiceTypes, @"serviceTypes", @"R", @"orderType", [self.recurringInfo objectForKey:ORDER_FREQUENCY], @"frequency", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/pickupdates", BASE_URL];
     
@@ -2195,7 +2195,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -2472,7 +2472,7 @@
 {
     if ([arraySelectedServiceTypes count])
     {
-        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", @"B", @"orderType", arraySelectedServiceTypes, @"serviceTypes", [self.recurringInfo objectForKey:ORDER_TYPE], @"orderSpeed", nil];
+        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", @"B", @"orderType", arraySelectedServiceTypes, @"serviceTypes", [self.recurringInfo objectForKey:ORDER_TYPE], @"orderSpeed", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@order/estimatedays", BASE_URL];
         

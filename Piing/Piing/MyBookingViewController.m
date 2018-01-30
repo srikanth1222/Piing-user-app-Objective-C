@@ -288,7 +288,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"complete", @"status", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"complete", @"status", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/get/all", BASE_URL];
     
@@ -343,7 +343,7 @@
         [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     }
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"New", @"status", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"New", @"status", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/get/all", BASE_URL];
     
@@ -431,7 +431,7 @@
         strCode = @"MO";
     }
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", strCode, @"order", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", strCode, @"order", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@getorderstatusimages/services.do?", BASE_URL];
     NSString *str = @"";

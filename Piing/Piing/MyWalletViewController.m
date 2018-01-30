@@ -120,7 +120,7 @@
 {
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/wallet", BASE_URL];
     

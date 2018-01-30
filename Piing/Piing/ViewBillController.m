@@ -286,7 +286,7 @@
 {
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.strUserId, @"uid", self.strCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.strUserId, @"uid", self.strCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = @"";
     

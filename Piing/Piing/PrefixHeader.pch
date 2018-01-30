@@ -222,7 +222,7 @@
 #define USER_ID @"userID"
 #define USERNAME @"USERNAME"
 #define PASSWORD @"PASSWORD"
-#define USER_TOEKN @"userToken"
+#define USER_TOKEN @"userToken"
 #define IS_TOURIST @"ISTOURIST"
 
 

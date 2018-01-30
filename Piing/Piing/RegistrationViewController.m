@@ -512,7 +512,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:USER_ID];
     //[[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"CurrentStateOfApp"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:USERNAME];
-    //    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:USER_TOEKN];
+    //    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:USER_TOKEN];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -525,7 +525,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/resendverificationcode", BASE_URL];
     
@@ -1419,7 +1419,7 @@
             
             [[NSUserDefaults standardUserDefaults] setObject:[responseObj objectForKey:@"uid"] forKey:USER_ID];
             
-            [[NSUserDefaults standardUserDefaults] setObject:[responseObj objectForKey:@"t"] forKey:USER_TOEKN];
+            [[NSUserDefaults standardUserDefaults] setObject:[responseObj objectForKey:@"t"] forKey:USER_TOKEN];
             
             [[NSUserDefaults standardUserDefaults] setObject:[[responseObj objectForKey:@"r"] objectForKey:@"refCode"] forKey:@"referalCode"];
             
@@ -1524,7 +1524,7 @@
             return;
         }
         
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", verificationTextFeild.text, @"verificationCode", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", verificationTextFeild.text, @"verificationCode", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
         
         [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
         NSString *urlStr = [NSString stringWithFormat:@"%@user/verify", BASE_URL];

@@ -649,7 +649,7 @@
         return;
     }
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t",[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", tfPC.text, @"promoCode", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t",[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", tfPC.text, @"promoCode", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@promo/check", BASE_URL];
     
@@ -1195,7 +1195,7 @@
     bookVC.bookNowCobID = [dict objectForKey:@"cobid"];
     bookVC.isFromOrdersList = YES;
     
-    NSString *userSession = [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN];
+    NSString *userSession = [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@clientorderdetails/services.do?cobid=%@&t=%@", BASE_URL, [dict objectForKey:@"cobid"], userSession];
     
@@ -1534,7 +1534,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -1810,7 +1810,7 @@
     NSString *pickUDate = [self.orderInfo objectForKey:ORDER_PICKUP_DATE];
     NSString *pickUSlot = [self.orderInfo objectForKey:ORDER_PICKUP_SLOT];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [selectedAddress objectForKey:@"_id"], @"deliveryAddressId", [self.orderInfo objectForKey:ORDER_JOB_TYPE], @"serviceTypes", pickUDate, @"pickUpDate", pickUSlot, @"pickUpSlotId", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", strFromScreen, @"orderType", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [selectedAddress objectForKey:@"_id"], @"deliveryAddressId", [self.orderInfo objectForKey:ORDER_JOB_TYPE], @"serviceTypes", pickUDate, @"pickUpDate", pickUSlot, @"pickUpSlotId", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", strFromScreen, @"orderType", nil];
     
     if (self.isFromUpdateOrder)
     {
@@ -1865,7 +1865,7 @@
     // Do whatever needs to be done to deliver the purchased items.
     
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/gettoken", BASE_URL];
     
@@ -1894,7 +1894,7 @@
                               {
                                   DLog(@"Nounce %@",nonce.nonce);
                                   
-                                  NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nonce.nonce, @"paymentMethodNonce", nil];
+                                  NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nonce.nonce, @"paymentMethodNonce", nil];
                                   
                                   NSString *urlStr = [NSString stringWithFormat:@"%@payment/save", BASE_URL];
                                   
@@ -1949,7 +1949,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/getallpaymentmethods", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         

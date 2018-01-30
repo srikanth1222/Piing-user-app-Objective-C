@@ -69,7 +69,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/checkreferralexists", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -263,7 +263,7 @@
 {
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appdel withObject:nil];
     
-    NSDictionary *verificationDetailsDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *verificationDetailsDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/get", BASE_URL];
     
@@ -323,7 +323,7 @@
 {
     return;
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t",[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [resDic objectForKey:@"un"], @"emailid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t",[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [resDic objectForKey:@"un"], @"emailid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@resendemailverification/services.do?", BASE_URL];
     
@@ -670,7 +670,7 @@
 {
     if ([referralCodeTF.text length])
     {
-        NSDictionary *dictRef = [NSMutableDictionary dictionaryWithObjectsAndKeys:referralCodeTF.text, @"referCode", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+        NSDictionary *dictRef = [NSMutableDictionary dictionaryWithObjectsAndKeys:referralCodeTF.text, @"referCode", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
         
         [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appdel withObject:nil];
         
@@ -680,7 +680,7 @@
             
             if ([responseObj objectForKey:@"s"] && [[responseObj objectForKey:@"s"] intValue] == 1)
             {
-                NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", referralCodeTF.text, @"referCode", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+                NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", referralCodeTF.text, @"referCode", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
                 
                 NSString *urlStr = [NSString stringWithFormat:@"%@user/savereferral", BASE_URL];
                 
@@ -715,7 +715,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appdel withObject:nil];
     
-    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strFstName, @"name", strEmailID, @"email", psw, @"password", strMobileNum, @"phone", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strFstName, @"name", strEmailID, @"email", psw, @"password", strMobileNum, @"phone", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@user/update", BASE_URL];
     
@@ -1139,7 +1139,7 @@
     {
         if ([paswordTF.text isEqualToString:confirmPwdTF.text])
         {
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", paswordTF.text, @"newPassword", passwordtextFeild.text, @"oldPassword", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", paswordTF.text, @"newPassword", passwordtextFeild.text, @"oldPassword", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@user/changepassword", BASE_URL];
             
@@ -1217,7 +1217,7 @@
         }
         else
         {
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", verificationCodeStr, @"verificationCode", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", verificationCodeStr, @"verificationCode", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@user/verifyprofileupdate", BASE_URL];
             
@@ -1255,7 +1255,7 @@
     }
     else if (btn.tag == 2)
     {
-        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", mobiletextFeild.text, @"mno", nil];
+        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", mobiletextFeild.text, @"mno", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@user/resendverificationcode", BASE_URL];
         
@@ -1305,7 +1305,7 @@
         }
         else{
             
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",strForgot,@"password",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",strForgot,@"password",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@user/authprofileupdate", BASE_URL];
             

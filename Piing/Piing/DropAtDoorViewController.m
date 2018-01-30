@@ -267,7 +267,7 @@
 {
     [FIRAnalytics logEventWithName:@"confirm_drop_at_door_button" parameters:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", txtView.text, @"deliverAtDoorNote", [self.orderEditDetails objectForKey:@"oid"], @"oid", @"1", @"deliverAtDoor", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", txtView.text, @"deliverAtDoorNote", [self.orderEditDetails objectForKey:@"oid"], @"oid", @"1", @"deliverAtDoor", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/deliveratdoor", BASE_URL];
     

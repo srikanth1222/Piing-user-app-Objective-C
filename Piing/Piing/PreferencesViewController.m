@@ -986,7 +986,7 @@
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
         
         [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:@"uid"];
-        [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
+        [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN] forKey:@"t"];
         
         [dic setObject:strPref forKey:@"preferences"];
         

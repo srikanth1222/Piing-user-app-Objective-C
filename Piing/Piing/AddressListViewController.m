@@ -193,7 +193,7 @@
 {
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appdel withObject:nil];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
@@ -581,7 +581,7 @@
     addressFeild.lat = [dict objectForKey:@"lat"];
     addressFeild.lng = [dict objectForKey:@"lon"];
     
-    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid", addressFeild.addressName, @"name", addressFeild.addressLine1, @"line1", addressFeild.addressLine2, @"line2", addressFeild.city, @"city", addressFeild.state, @"state", addressFeild.country, @"country",addressFeild.notes, @"landMark", addressFeild.zipCode, @"zipcode", @"1", @"default",addressFeild.fno, @"floorNo", addressFeild.uno, @"unitNo", addressFeild.addressID, @"_id", addressFeild.lat, @"lat", addressFeild.lng, @"lon", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid", addressFeild.addressName, @"name", addressFeild.addressLine1, @"line1", addressFeild.addressLine2, @"line2", addressFeild.city, @"city", addressFeild.state, @"state", addressFeild.country, @"country",addressFeild.notes, @"landMark", addressFeild.zipCode, @"zipcode", @"1", @"default",addressFeild.fno, @"floorNo", addressFeild.uno, @"unitNo", addressFeild.addressID, @"_id", addressFeild.lat, @"lat", addressFeild.lng, @"lon", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/save", BASE_URL];
     

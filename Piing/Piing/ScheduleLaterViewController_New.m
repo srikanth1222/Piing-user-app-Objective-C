@@ -183,7 +183,7 @@
         
         [self.orderInfo setValue:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
         [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:ORDER_USER_ID];
-        [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
+        [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN] forKey:@"t"];
         [self.orderInfo setObject:@"From IOS" forKey:ORDER_NOTES];
         [self.orderInfo setObject:@"" forKey:PROMO_CODE];
         
@@ -292,7 +292,7 @@
 
 - (void)fetchPickUpDates:(BOOL) btnClicked
 {
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [selectedAddress objectForKey:@"_id"], @"pickupAddressId", arraySelectedServiceTypes, @"serviceTypes", @"S", @"orderType", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [selectedAddress objectForKey:@"_id"], @"pickupAddressId", arraySelectedServiceTypes, @"serviceTypes", @"S", @"orderType", nil];
     
     if (self.isFromUpdateOrder)
     {
@@ -499,7 +499,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -3092,7 +3092,7 @@
 {
     if ([arraySelectedServiceTypes count])
     {
-        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", @"B", @"orderType", arraySelectedServiceTypes, @"serviceTypes", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", nil];
+        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", @"B", @"orderType", arraySelectedServiceTypes, @"serviceTypes", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@order/estimatedays", BASE_URL];
         

@@ -227,7 +227,7 @@
 
 -(void) fetchCards
 {
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/getallpaymentmethods", BASE_URL];
     
@@ -535,7 +535,7 @@
 
 -(void) setDefaultPaymentMode
 {
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", paymentMode, @"_id", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", paymentMode, @"_id", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/setdefaultpaymentmethod", BASE_URL];
     
@@ -569,7 +569,7 @@
     // Do whatever needs to be done to deliver the purchased items.
     
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/gettoken", BASE_URL];
     
@@ -598,7 +598,7 @@
                               {
                                   DLog(@"Nounce %@",nonce.nonce);
                                   
-                                  NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nonce.nonce, @"paymentMethodNonce", nil];
+                                  NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nonce.nonce, @"paymentMethodNonce", nil];
                                   
                                   NSString *urlStr = [NSString stringWithFormat:@"%@payment/save", BASE_URL];
                                   

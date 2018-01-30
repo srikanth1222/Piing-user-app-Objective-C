@@ -927,7 +927,7 @@
 
 - (void) loadAPIForBookNowStatus
 {
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/orderbookingavailable", BASE_URL];
     
@@ -1009,7 +1009,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -1065,7 +1065,7 @@
 {
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/getallpaymentmethods", BASE_URL];
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -1321,7 +1321,7 @@
 {
     NSString *versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"WF", @"serviceTypes", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", versionNumber, @"ver", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"WF", @"serviceTypes", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", versionNumber, @"ver", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/eta", BASE_URL];
     
@@ -1433,7 +1433,7 @@
         return;
     }
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"B", @"orderType", @"WF", @"serviceTypes", @"R", @"orderSpeed", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", strPiingoId, @"pid", bookNowETAStr, @"pickUpSlotId", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [selectedAddressDic objectForKey:@"_id"], @"pickupAddressId", @"B", @"orderType", @"WF", @"serviceTypes", @"R", @"orderSpeed", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", strPiingoId, @"pid", bookNowETAStr, @"pickUpSlotId", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/book", BASE_URL];
     

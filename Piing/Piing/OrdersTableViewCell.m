@@ -321,7 +321,7 @@
         
         if ([strPiingoId intValue] > 0)
         {
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strPiingoId, @"pid", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strPiingoId, @"pid", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@piingo/get", BASE_URL];
             

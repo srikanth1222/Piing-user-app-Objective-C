@@ -316,7 +316,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/recurring/get/all", BASE_URL];
     
@@ -387,7 +387,7 @@
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", [dict objectForKey:@"rodid"], @"rodid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", [dict objectForKey:@"rodid"], @"rodid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@deleterecurringorder/services.do?", BASE_URL];
     NSString *str = @"";
@@ -777,7 +777,7 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [dict objectForKey:@"roid"], @"roid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"P", @"status", nil];
+                                 NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [dict objectForKey:@"roid"], @"roid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"P", @"status", nil];
                                  
                                  NSString *urlStr = [NSString stringWithFormat:@"%@order/recurring/update", BASE_URL];
                                  
@@ -836,7 +836,7 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                 NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [dict objectForKey:@"roid"], @"roid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"R", @"status", nil];
+                                 NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [dict objectForKey:@"roid"], @"roid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", @"R", @"status", nil];
                                  
                                  NSString *urlStr = [NSString stringWithFormat:@"%@order/recurring/update", BASE_URL];
                                  

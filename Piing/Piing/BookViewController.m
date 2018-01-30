@@ -302,7 +302,7 @@
         
     }];
     
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", self.bookNowCobID, @"orderId", self.piingoName, @"name", @"IOS", @"device", [self.selectedAddress objectForKey:@"lat"], @"lat", [self.selectedAddress objectForKey:@"lon"], @"lon", self.piingoId, @"pid", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", self.bookNowCobID, @"orderId", self.piingoName, @"name", @"IOS", @"device", [self.selectedAddress objectForKey:@"lat"], @"lat", [self.selectedAddress objectForKey:@"lon"], @"lon", self.piingoId, @"pid", nil];
     
     NSURL* url = [[NSURL alloc] initWithString:BASE_TRACKING_URL];
     
@@ -708,7 +708,7 @@
 
 -(void) getOrderDetailsFromService
 {
-    NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/get/byid", BASE_URL];
     
@@ -782,7 +782,7 @@
                 
                 if ([strPiingoId intValue] > 0)
                 {
-                    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strPiingoId, @"pid", nil];
+                    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strPiingoId, @"pid", nil];
                     
                     NSString *urlStr = [NSString stringWithFormat:@"%@piingo/get", BASE_URL];
                     
@@ -831,7 +831,7 @@
             }
             else
             {
-                NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [self.orderEditDetails objectForKey:@"oid"], @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+                NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [self.orderEditDetails objectForKey:@"oid"], @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
                 
                 NSString *urlStr = @"";
                 
@@ -890,7 +890,7 @@
                         
                         if ([strPiingoId intValue] > 0)
                         {
-                            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strPiingoId, @"pid", nil];
+                            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", strPiingoId, @"pid", nil];
                             
                             NSString *urlStr = [NSString stringWithFormat:@"%@piingo/get", BASE_URL];
                             
@@ -978,7 +978,7 @@
         
         [self.orderInfo setValue:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
         [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:ORDER_USER_ID];
-        [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
+        [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN] forKey:@"t"];
         
         NSPredicate *getDefaultAddPredicate1 = [NSPredicate predicateWithFormat:@"default == %d", 1];
         NSArray *sortedArray1 = [self.userSavedCards filteredArrayUsingPredicate:getDefaultAddPredicate1];
@@ -4120,7 +4120,7 @@
 
 -(void) updateOrderDetails
 {
-    NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSDictionary *dictDetail = [NSDictionary dictionaryWithObjectsAndKeys:self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/get/byid", BASE_URL];
     
@@ -4202,7 +4202,7 @@
     
     [self.orderInfo setValue:ORDER_TYPE_REGULAR forKey:ORDER_TYPE];
     [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID] forKey:ORDER_USER_ID];
-    [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN] forKey:@"t"];
+    [self.orderInfo setObject:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN] forKey:@"t"];
     
     [self.orderInfo setObject:self.bookNowCobID forKey:@"oid"];
     
@@ -7017,7 +7017,7 @@
         return;
     }
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t",[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", tfPC.text, @"promoCode", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t",[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", tfPC.text, @"promoCode", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@promo/check", BASE_URL];
     
@@ -7378,7 +7378,7 @@
 {
     if ([arraySelectedServiceTypes count])
     {
-        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", @"B", @"orderType", arraySelectedServiceTypes, @"serviceTypes", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", nil];
+        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", @"B", @"orderType", arraySelectedServiceTypes, @"serviceTypes", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@order/estimatedays", BASE_URL];
         
@@ -7535,7 +7535,7 @@
                                     {
                                         appDel.isBookNowPending = NO;
                                         
-                                        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+                                        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
                                         
                                         NSString *urlStr = [NSString stringWithFormat:@"%@order/cancel", BASE_URL];
                                         
@@ -7618,7 +7618,7 @@
         
         UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", self.bookNowCobID, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@order/cancel", BASE_URL];
             
@@ -7724,7 +7724,7 @@
         {
             appDel.isBookNowPending = NO;
             
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", self.bookNowCobID, @"cobid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", self.bookNowCobID, @"cobid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@cancelorder/services.do?", BASE_URL];
             
@@ -7774,7 +7774,7 @@
     {
         if (buttonIndex == 1)
         {
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", self.bookNowCobID, @"cobid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", self.bookNowCobID, @"cobid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@cancelorder/services.do?", BASE_URL];
             
@@ -7981,7 +7981,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@address/get", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         
@@ -8302,7 +8302,7 @@
         
         UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             
-            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", @"", @"deliverAtDoorNote", [self.orderEditDetails objectForKey:@"oid"], @"oid", @"0", @"deliverAtDoor", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+            NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", @"", @"deliverAtDoorNote", [self.orderEditDetails objectForKey:@"oid"], @"oid", @"0", @"deliverAtDoor", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
             
             NSString *urlStr = [NSString stringWithFormat:@"%@order/deliveratdoor", BASE_URL];
             
@@ -8390,7 +8390,7 @@
     NSString *pickUDate = [self.orderInfo objectForKey:ORDER_PICKUP_DATE];
     NSString *pickUSlot = [self.orderInfo objectForKey:ORDER_PICKUP_SLOT];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [self.selectedAddress objectForKey:@"_id"], @"deliveryAddressId", arraySelectedServiceTypes, @"serviceTypes", pickUDate, @"pickUpDate", pickUSlot, @"pickUpSlotId", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", @"B", @"orderType", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [self.selectedAddress objectForKey:@"_id"], @"deliveryAddressId", arraySelectedServiceTypes, @"serviceTypes", pickUDate, @"pickUpDate", pickUSlot, @"pickUpSlotId", [self.orderInfo objectForKey:ORDER_TYPE], @"orderSpeed", @"B", @"orderType", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/deliverydates", BASE_URL];
     
@@ -8498,7 +8498,7 @@
     // Do whatever needs to be done to deliver the purchased items.
     
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN],@"t", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID],@"uid",[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN],@"t", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/gettoken", BASE_URL];
     
@@ -8527,7 +8527,7 @@
                               {
                                   DLog(@"Nounce %@",nonce.nonce);
                                   
-                                  NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nonce.nonce, @"paymentMethodNonce", nil];
+                                  NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nonce.nonce, @"paymentMethodNonce", nil];
                                   
                                   NSString *urlStr = [NSString stringWithFormat:@"%@payment/save", BASE_URL];
                                   
@@ -8582,7 +8582,7 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"%@payment/getallpaymentmethods", BASE_URL];
     
-    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+    NSMutableDictionary *verificationDetailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
     
     [WebserviceMethods sendRequestWithURLString:urlStr requestMethod:@"POST" withDetailsDictionary:verificationDetailsDic andResponseCallBack:^(NSURLResponse *response, NSError *error, id responseObj) {
         

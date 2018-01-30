@@ -137,7 +137,7 @@
     
     strCobId = [self.loginDetails objectForKey:@"feedBackOid"];
     
-    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", strCobId, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
+    NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", strCobId, @"oid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@order/get/byid", BASE_URL];
     
@@ -151,7 +151,7 @@
                 
                 NSDictionary *dict = [[NSMutableDictionary alloc]initWithDictionary:[[responseObj objectForKey:@"em"] objectAtIndex:0]];
                 
-                NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [dict objectForKey:@"ppid"], @"pid", nil];
+                NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [dict objectForKey:@"ppid"], @"pid", nil];
                 
                 NSString *urlStr = [NSString stringWithFormat:@"%@piingo/get", BASE_URL];
                 
@@ -368,7 +368,7 @@
         
         NSString *strRating = [NSString stringWithFormat:@"%d", (int) starRatingView.value];
         
-        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:strCobId, @"oid", strRating, @"rating", txtView.text, @"note", @"P", @"feedBackType", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOEKN], @"t", nil];
+        NSMutableDictionary *detailsDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:strCobId, @"oid", strRating, @"rating", txtView.text, @"note", @"P", @"feedBackType", [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID], @"uid", [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN], @"t", nil];
         
         NSString *urlStr = [NSString stringWithFormat:@"%@order/feedback", BASE_URL];
         
