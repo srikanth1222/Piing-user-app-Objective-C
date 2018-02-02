@@ -1401,7 +1401,7 @@
 
 -(void) registerServiceCalled
 {
-    NSDictionary *dictReg = [NSMutableDictionary dictionaryWithObjectsAndKeys:registerFeilds.emailAddress, @"email", registerFeilds.password, @"password", registerFeilds.firstName,@"name", registerFeilds.cellPhone, @"phone", @"IOS", @"source", registerFeilds.referalCode, @"referCode", registerFeilds.extn_Number, @"roomExtensionNo", [[NSUserDefaults standardUserDefaults] objectForKey:IS_TOURIST], @"userType", @"000000", @"zipcode", nil];
+    NSDictionary *dictReg = [NSMutableDictionary dictionaryWithObjectsAndKeys:registerFeilds.emailAddress, @"email", registerFeilds.password, @"password", registerFeilds.firstName,@"name", registerFeilds.cellPhone, @"phone", @"IOS", @"source", registerFeilds.referalCode, @"referCode", registerFeilds.extn_Number, @"roomExtensionNo", [[NSUserDefaults standardUserDefaults] objectForKey:IS_TOURIST], @"userType", @"000000", @"zipcode", @"IOS", @"device", nil];
     
     [NSThread detachNewThreadSelector:@selector(showLoader) toTarget:appDel withObject:nil];
     

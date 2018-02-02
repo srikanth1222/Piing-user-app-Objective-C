@@ -1110,10 +1110,9 @@ NSString *BraintreeDemoAppDelegatePaymentsURLScheme = @"com.piing.userpiing.paym
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:USERNAME] length])
     {
-        
         NSString *passwordStr = [[[NSUserDefaults standardUserDefaults] objectForKey:PASSWORD] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPasswordAllowedCharacterSet]];
         
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USERNAME], @"email", passwordStr, @"password", nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:USERNAME], @"email", passwordStr, @"password", @"IOS", @"device", nil];
         
         NSLog(@"Login Dic : %@", dic);
         
