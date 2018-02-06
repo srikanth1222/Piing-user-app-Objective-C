@@ -442,13 +442,13 @@
                 
                 btnOffer.frame = CGRectMake(xAxis, TABLE_TIME_HEIGHT/2 - height/2, width, height);
                 
-                btnOffer.titleLabel.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM+2];
+                btnOffer.titleLabel.font = [UIFont fontWithName:APPFONT_MEDIUM size:appDel.FONT_SIZE_CUSTOM+1];
                 
                 [btnOffer setTitleColor:RGBCOLORCODE(71, 185, 120, 1.0) forState:UIControlStateNormal];
                 btnOffer.titleEdgeInsets = UIEdgeInsetsMake(0, 20*MULTIPLYHEIGHT, 0, 0);
                 xAxis += btnOffer.frame.size.width;
             }
-            else if ([[dict objectForKey:@"surge"] length] > 1)
+            else if ([[dict objectForKey:@"se"] length] > 1)
             {
                 btnOffer.hidden = NO;
                 
@@ -457,7 +457,7 @@
                 
                 [btnOffer setBackgroundImage:img forState:UIControlStateNormal];
                 
-                NSString *strSurge = [NSString stringWithFormat:@"+ %@", [dict objectForKey:@"surge"]];
+                NSString *strSurge = [NSString stringWithFormat:@"+ %@", [dict objectForKey:@"se"]];
                 
                 [btnOffer setTitle:strSurge forState:UIControlStateNormal];
                 
